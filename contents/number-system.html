@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number System Diagram</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+  .diagram-container {
+    width: 400px;
+    position: relative;
+  }
+  .box {
+    padding: 20px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+  }
+  .number-system {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .real, .imaginary, .rational, .irrational, .integer, .whole, .natural {
+    background-color: #90CAF9;
+    margin-top: 10px;
+  }
+  .imaginary {
+    background-color: #FF8A65;
+  }
+  .arrow {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 20px;
+    background-color: #333;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container">
+  <div class="box number-system">Number System</div>
+  <div class="arrow" style="top: 70px;"></div>
+  <div class="box real">Real Numbers</div>
+  <div class="arrow" style="top: 160px;"></div>
+  <div class="box rational">Rational Numbers</div>
+  <div class="arrow" style="top: 250px;"></div>
+  <div class="box integer">Integers</div>
+  <div class="arrow" style="top: 340px;"></div>
+  <div class="box whole">Whole Numbers</div>
+  <div class="arrow" style="top: 430px;"></div>
+  <div class="box natural">Natural Numbers</div>
+  <div class="arrow" style="top: 160px; left: 300px; height: 70px;"></div>
+  <div class="box imaginary" style="position: absolute; top: 180px; right: 0;">Imaginary Numbers</div>
+</div>
+
+</body>
+</html>
