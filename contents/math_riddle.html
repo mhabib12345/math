@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Riddles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .riddle {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+        .show-answer {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            if (answer.style.display === "none") {
+                answer.style.display = "block";
+            } else {
+                answer.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Math Riddles</h1>
+
+    <div class="riddle">
+        <p><strong>Riddle 1:</strong> I am an odd number. Take away one letter and I become even. What number am I?</p>
+        <p class="show-answer" onclick="toggleAnswer('answer1')">Show Answer</p>
+        <p id="answer1" class="answer">Answer: Seven</p>
+    </div>
+
+    <div class="riddle">
+        <p><strong>Riddle 2:</strong> What number do you get when you multiply all the numbers on a phone keypad?</p>
+        <p class="show-answer" onclick="toggleAnswer('answer2')">Show Answer</p>
+        <p id="answer2" class="answer">Answer: Zero</p>
+    </div>
+
+    <div class="riddle">
+        <p><strong>Riddle 3:</strong> I add five to nine and get two. The answer is correct, but how?</p>
+        <p class="show-answer" onclick="toggleAnswer('answer3')">Show Answer</p>
+        <p id="answer3" class="answer">Answer: When it's 9 AM and you add 5 hours, you get 2 PM.</p>
+    </div>
+
+    <div class="riddle">
+        <p><strong>Riddle 4:</strong> A bat and a ball cost $1.10 in total. The bat costs $1 more than the ball. How much does the ball cost?</p>
+        <p class="show-answer" onclick="toggleAnswer('answer4')">Show Answer</p>
+        <p id="answer4" class="answer">Answer: 5 cents</p>
+    </div>
+
+    <div class="riddle">
+        <p><strong>Riddle 5:</strong> If two’s company, and three’s a crowd, what are four and five?</p>
+        <p class="show-answer" onclick="toggleAnswer('answer5')">Show Answer</p>
+        <p id="answer5" class="answer">Answer: Nine</p>
+    </div>
+
+</body>
+</html>
