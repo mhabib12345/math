@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riddle Story</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eaeaea;
+            padding: 20px;
+        }
+        .riddle {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .answer {
+            display: none;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        button {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>A Journey Through Riddles</h1>
+    <p>Once upon a time in a quaint village, there lived a wise old owl who loved to challenge travelers with riddles. One day, a curious wanderer decided to seek the owl's wisdom.</p>
+
+    <div class="riddle">
+        <p><strong>Riddle 1:</strong> What has keys but can't open locks?</p>
+        <button onclick="toggleAnswer(1)">Show Answer</button>
+        <p class="answer" id="answer1">A piano.</p>
+    </div>
+
+    <p>Impressed, the wanderer continued on, and soon came across another challenge.</p>
+
+    <div class="riddle">
+        <p><strong>Riddle 2:</strong> What can travel around the world while staying in a corner?</p>
+        <button onclick="toggleAnswer(2)">Show Answer</button>
+        <p class="answer" id="answer2">A stamp.</p>
+    </div>
+
+    <p>Feeling clever, the wanderer pressed onward, eager to hear more riddles.</p>
+
+    <div class="riddle">
+        <p><strong>Riddle 3:</strong> I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?</p>
+        <button onclick="toggleAnswer(3)">Show Answer</button>
+        <p class="answer" id="answer3">An echo.</p>
+    </div>
+
+    <p>Each riddle brought new excitement, and soon the wanderer faced another challenge.</p>
+
+    <div class="riddle">
+        <p><strong>Riddle 4:</strong> The more of this there is, the less you see. What is it?</p>
+        <button onclick="toggleAnswer(4)">Show Answer</button>
+        <p class="answer" id="answer4">Darkness.</p>
+    </div>
+
+    <p>With a grin, the wanderer knew they were getting closer to the end of their adventure.</p>
+
+    <div class="riddle">
+        <p><strong>Riddle 5:</strong> What is so fragile that saying its name breaks it?</p>
+        <button onclick="toggleAnswer(5)">Show Answer</button>
+        <p class="answer" id="answer5">Silence.</p>
+    </div>
+
+    <p>With the final riddle solved, the wanderer thanked the wise old owl and continued their journey, enriched with knowledge and joy from the riddles encountered along the way.</p>
+
+    <script>
+        function toggleAnswer(num) {
+            const answer = document.getElementById(`answer${num}`);
+            answer.style.display = answer.style.display === 'none' || answer.style.display === '' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
