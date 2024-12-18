@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Enthusiast: River Crossing Puzzle</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f8ff; margin: 20px; }
+        h1, h2 { color: #2c3e50; }
+        .section { margin-bottom: 40px; }
+        .puzzle { background-color: #e6f2ff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        button { margin: 5px; padding: 10px; background-color: #0073e6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #005bb5; }
+        .log { margin-top: 20px; background-color: #d9e6f2; padding: 10px; border-radius: 5px; }
+        .image-container { text-align: center; margin-bottom: 20px; }
+        .image-container img { max-width: 100%; height: auto; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Math Enthusiast</h1>
+    <div class="section puzzle">
+        <h2>Crossing the River Puzzle</h2>
+        <div class="image-container">
+            <img src="https://plus.unsplash.com/premium_photo-1673448760796-ac808e7fc16c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODB8fHJpdmVyfGVufDB8fDB8fHww" alt="River Crossing">
+        </div>
+        <p>Three missionaries and three cannibals need to cross a river using a boat that can carry at most two people at a time. If at any time the cannibals outnumber the missionaries on either side of the river, the cannibals will eat the missionaries. How can they all get across the river safely?</p>
+        <h3>Rules:</h3>
+        <ul>
+            <li>Only one or two people can be on the boat at any time.</li>
+            <li>There must be at least one person on the boat to row it back to the other side.</li>
+            <li>You cannot leave more cannibals than missionaries on either side of the river.</li>
+        </ul>
+        <h3>Objective:</h3>
+        <p>Figure out a sequence of boat crossings that gets everyone to the other side without any missionaries being eaten.</p>
+        <div>
+            <button onclick="makeMove('MC')">Missionary + Cannibal</button>
+            <button onclick="makeMove('CC')">2 Cannibals</button>
+            <button onclick="makeMove('MM')">2 Missionaries</button>
+            <button onclick="makeMove('M')">1 Missionary</button>
+            <button onclick="makeMove('C')">1 Cannibal</button>
+        </div>
+        <div class="log" id="log"></div>
+    </div>
+
+    <script>
+        let left = { M: 3, C: 3 };
+        let right = { M: 0, C: 0 };
+        let boat = { side: 'left', capacity: 2 };
+
+        function makeMove(move) {
+            if (boat.side === 'left') {
+                movePeople(move, left, right);
+                boat.side = 'right';
+            } else {
+                movePeople(move, right, left);
+                boat.side = 'left';
+            }
+            logState();
+        }
+
+        function movePeople(move, from, to) {
+            const moves = { 'M': 0, 'C': 0, 'MM': 2, 'CC': 2, 'MC': 1 };
+            for (let char of move) {
+                if (from[char] > 0 && moves[move] <= boat.capacity) {
+                    from[char]--;
+                    to[char]++;
+                }
+            }
+        }
+
+        function logState() {
+            const log = document.getElementById('log');
+            log.innerHTML = `
+                <p>Left Side: ${left.M} Missionaries, ${left.C} Cannibals</p>
+                <p>Right Side: ${right.M} Missionaries, ${right.C} Cannibals</p>
+                <p>Boat is on the ${boat.side} side</p>
+            `;
+        }
+        
+        logState();
+    </script>
+</body>
+</html>
