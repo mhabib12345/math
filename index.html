@@ -42,6 +42,39 @@
             background-color: #ddd;
             color: black;
         }
+        .animated-box {
+      width: 100px;
+      height: 100px;
+      background-color: #4CAF50;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: moveBox 5s infinite;
+    }
+
+    @keyframes moveBox {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+        background-color: #4CAF50;
+      }
+      25% {
+        transform: translate(-50%, -50%) rotate(90deg);
+        background-color: #2196F3;
+      }
+      50% {
+        transform: translate(-50%, -50%) rotate(180deg);
+        background-color: #FFC107;
+      }
+      75% {
+        transform: translate(-50%, -50%) rotate(270deg);
+        background-color: #FF5722;
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+        background-color: #4CAF50;
+      }
+    }
     </style>
 </head>
 <body>
@@ -57,8 +90,7 @@
         <h1>Welcome to My Home Page</h1>
         <p>This is a sample home page with a gray background and white text.  
             <a href="contents/riddle_story.html">Go to Riddle Page </a>
-<img src="images/Screenshot_2024-11-18-11-39-21-010_com.google.android.apps.docs.png" alt="Description of image" width="100%">
-
+<div class="animated-box"></div>
         </p>
 
     </div>
