@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Colorful Brick Breaker Game</title>
+  <title>Brick Breaker Game with Levels</title>
   <style>
     body {
       margin: 0;
@@ -17,6 +17,20 @@
     canvas {
       background: #eee;
       border: 2px solid #000;
+    }
+    #levelButtons {
+      margin: 20px;
+    }
+    .levelButton {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #0095DD;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .levelButton:hover {
+      background-color: #007BBB;
     }
     #retryButton {
       display: none;
@@ -33,68 +47,95 @@
   </style>
 </head>
 <body>
-  <canvas id="gameCanvas" width="480" height="320"></canvas>
+  <div id="levelButtons">
+    <button class="levelButton" onclick="startGame('Easy')">Easy</button>
+    <button class="levelButton" onclick="startGame('Medium')">Medium</button>
+    <button class="levelButton" onclick="startGame('Hard')">Hard</button>
+  </div>
+  <canvas id="gameCanvas" width="480" height="320" style="display: none;"></canvas>
   <button id="retryButton" onclick="restartGame()">Retry</button>
   <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
+    let canvas, ctx, paddleX, ballRadius, x, y, dx, dy, brickRowCount, brickColumnCount, paddleHeight, paddleWidth, bricks, ballColor, paddleColor, brickColor;
 
-    const paddleHeight = 10;
-    const paddleWidth = 75;
-    let paddleX = (canvas.width - paddleWidth) / 2;
+    const setupGame = (level) => {
+      canvas = document.getElementById('gameCanvas');
+      ctx = canvas.getContext('2d');
 
-    let ballRadius = 10;
-    let x = canvas.width / 2;
-    let y = canvas.height - 30;
-    let dx = 2;
-    let dy = -2;
+      paddleHeight = 10;
+      paddleWidth = 75;
+      paddleX = (canvas.width - paddleWidth) / 2;
 
-    const brickRowCount = 3;
-    const brickColumnCount = 5;
-    const brickWidth = 75;
-    const brickHeight = 20;
-    const brickPadding = 10;
-    const brickOffsetTop = 30;
-    const brickOffsetLeft = 30;
+      ballRadius = 10;
+      x = canvas.width / 2;
+      y = canvas.height - 30;
 
-    const ballColor = "#FF5733"; // Color for the ball
-    const paddleColor = "#33FF57"; // Color for the paddle
-    const brickColor = "#3357FF"; // Color for the bricks
-
-    const bricks = [];
-    for(let c = 0; c < brickColumnCount; c++) {
-      bricks[c] = [];
-      for(let r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = { x: 0, y: 0, status: 1 };
+      switch(level) {
+        case 'Easy':
+          dx = 2;
+          dy = -2;
+          brickRowCount = 3;
+          brickColumnCount = 5;
+          break;
+        case 'Medium':
+          dx = 4;
+          dy = -4;
+          brickRowCount = 5;
+          brickColumnCount = 7;
+          break;
+        case 'Hard':
+          dx = 6;
+          dy = -6;
+          brickRowCount = 7;
+          brickColumnCount = 9;
+          break;
       }
-    }
 
-    canvas.addEventListener('mousemove', mouseMoveHandler, false);
+      ballColor = "#FF5733";
+      paddleColor = "#33FF57";
+      brickColor = "#3357FF";
 
-    function mouseMoveHandler(e) {
+      bricks = [];
+      for(let c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for(let r = 0; r < brickRowCount; r++) {
+          bricks[c][r] = { x: 0, y: 0, status: 1 };
+        }
+      }
+
+      canvas.addEventListener('mousemove', mouseMoveHandler, false);
+    };
+
+    const startGame = (level) => {
+      document.getElementById('levelButtons').style.display = 'none';
+      document.getElementById('gameCanvas').style.display = 'block';
+      setupGame(level);
+      draw();
+    };
+
+    const mouseMoveHandler = (e) => {
       const relativeX = e.clientX - canvas.offsetLeft;
       if (relativeX > 0 && relativeX < canvas.width) {
         paddleX = relativeX - paddleWidth / 2;
       }
-    }
+    };
 
-    function drawBall() {
+    const drawBall = () => {
       ctx.beginPath();
       ctx.arc(x, y, ballRadius, 0, Math.PI*2);
       ctx.fillStyle = ballColor;
       ctx.fill();
       ctx.closePath();
-    }
+    };
 
-    function drawPaddle() {
+    const drawPaddle = () => {
       ctx.beginPath();
       ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
       ctx.fillStyle = paddleColor;
       ctx.fill();
       ctx.closePath();
-    }
+    };
 
-    function drawBricks() {
+    const drawBricks = () => {
       for(let c = 0; c < brickColumnCount; c++) {
         for(let r = 0; r < brickRowCount; r++) {
           if(bricks[c][r].status === 1) {
@@ -110,9 +151,9 @@
           }
         }
       }
-    }
+    };
 
-    function collisionDetection() {
+    const collisionDetection = () => {
       for(let c = 0; c < brickColumnCount; c++) {
         for(let r = 0; r < brickRowCount; r++) {
           const b = bricks[c][r];
@@ -124,9 +165,9 @@
           }
         }
       }
-    }
+    };
 
-    function draw() {
+    const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawBricks();
       drawBall();
@@ -151,13 +192,11 @@
       x += dx;
       y += dy;
       requestAnimationFrame(draw);
-    }
+    };
 
-    function restartGame() {
+    const restartGame = () => {
       document.location.reload();
-    }
-
-    draw();
+    };
   </script>
 </body>
 </html>
