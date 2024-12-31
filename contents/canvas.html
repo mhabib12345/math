@@ -89,9 +89,6 @@
             <option value="square">Square</option>
             <option value="polygon">Polygon</option>
         </select>
-        <label for="backgroundColor">Background:</label>
-        <input type="color" id="backgroundColor" value="#ffffff">
-        <button id="setBackgroundButton">Set Background</button>
         <label for="uploadImage" class="upload-label">Upload Image</label>
         <input type="file" id="uploadImage" accept="image/*">
     </div>
@@ -108,8 +105,6 @@
         const brushSizeValue = document.getElementById('brushSizeValue');
         const brushTypeSelect = document.getElementById('brushType');
         const shapeTypeSelect = document.getElementById('shapeType');
-        const backgroundColorInput = document.getElementById('backgroundColor');
-        const setBackgroundButton = document.getElementById('setBackgroundButton');
         const uploadImageInput = document.getElementById('uploadImage');
 
         let painting = false;
@@ -118,6 +113,17 @@
         let currentBrushType = 'round'; // Default brush type
         let currentShapeType = 'none'; // Default shape type
         let startX, startY; // Starting coordinates for shapes
+
+        // Track the uploaded/pasted image
+        let image = null;
+        let imageX = 0;
+        let imageY = 0;
+        let imageWidth = 0;
+        let imageHeight = 0;
+        let isDragging = false;
+        let isResizing = false;
+        let isImageEditingMode = false; // Whether we're in image editing mode
+        let resizeHandleSize = 10;
 
         // Undo/redo functionality
         const maxHistorySteps = 10; // Maximum number of undo/redo steps
@@ -173,32 +179,21 @@
             redoButton.disabled = historyIndex >= history.length - 1;
         }
 
-        // Set the canvas background color
-        function setBackgroundColor(color) {
-            // Save the current drawing
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-            // Fill the canvas with the new background color
-            ctx.fillStyle = color;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Redraw the saved content on top of the new background
-            ctx.putImageData(imageData, 0, 0);
-
-            // Save the updated state
-            saveState();
-        }
-
         // Upload image and draw it on the canvas
         uploadImageInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    image = new Image();
+                    image.src = event.target.result;
+                    image.onload = () => {
+                        imageWidth = image.width;
+                        imageHeight = image.height;
+                        imageX = (canvas.width - imageWidth) / 2;
+                        imageY = (canvas.height - imageHeight) / 2;
+                        isImageEditingMode = true; // Enter image editing mode
+                        drawCanvas();
                         saveState(); // Save the state after uploading the image
                     };
                 };
@@ -214,10 +209,15 @@
                     const blob = items[i].getAsFile();
                     const reader = new FileReader();
                     reader.onload = (event) => {
-                        const img = new Image();
-                        img.src = event.target.result;
-                        img.onload = () => {
-                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        image = new Image();
+                        image.src = event.target.result;
+                        image.onload = () => {
+                            imageWidth = image.width;
+                            imageHeight = image.height;
+                            imageX = (canvas.width - imageWidth) / 2;
+                            imageY = (canvas.height - imageHeight) / 2;
+                            isImageEditingMode = true; // Enter image editing mode
+                            drawCanvas();
                             saveState(); // Save the state after pasting the image
                         };
                     };
@@ -226,35 +226,120 @@
             }
         });
 
-        function startPosition(e) {
-            painting = true;
-            startX = e.clientX - canvas.offsetLeft;
-            startY = e.clientY - canvas.offsetTop;
+        // Draw the canvas content
+        function drawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (image) {
+                ctx.drawImage(image, imageX, imageY, imageWidth, imageHeight);
+                if (isImageEditingMode) {
+                    drawResizeHandles();
+                }
+            }
+        }
 
-            if (currentShapeType === 'none') {
+        // Draw resize handles
+        function drawResizeHandles() {
+            if (!image) return;
+            ctx.fillStyle = 'blue';
+            // Bottom-right corner handle
+            ctx.fillRect(
+                imageX + imageWidth - resizeHandleSize / 2,
+                imageY + imageHeight - resizeHandleSize / 2,
+                resizeHandleSize,
+                resizeHandleSize
+            );
+        }
+
+        // Check if the mouse is over the image
+        function isMouseOverImage(x, y) {
+            return (
+                x >= imageX &&
+                x <= imageX + imageWidth &&
+                y >= imageY &&
+                y <= imageY + imageHeight
+            );
+        }
+
+        // Check if the mouse is over the resize handle
+        function isMouseOverResizeHandle(x, y) {
+            return (
+                x >= imageX + imageWidth - resizeHandleSize &&
+                x <= imageX + imageWidth &&
+                y >= imageY + imageHeight - resizeHandleSize &&
+                y <= imageY + imageHeight
+            );
+        }
+
+        // Handle mouse down event
+        function handleMouseDown(e) {
+            const mouseX = e.clientX - canvas.offsetLeft;
+            const mouseY = e.clientY - canvas.offsetTop;
+
+            if (isImageEditingMode) {
+                if (isMouseOverResizeHandle(mouseX, mouseY)) {
+                    isResizing = true;
+                } else if (isMouseOverImage(mouseX, mouseY)) {
+                    isDragging = true;
+                    startX = mouseX - imageX;
+                    startY = mouseY - imageY;
+                }
+            } else {
+                // Start brushing or drawing
+                painting = true;
+                startPosition(e);
+            }
+        }
+
+        // Handle mouse move event
+        function handleMouseMove(e) {
+            const mouseX = e.clientX - canvas.offsetLeft;
+            const mouseY = e.clientY - canvas.offsetTop;
+
+            if (isImageEditingMode) {
+                if (isDragging) {
+                    imageX = mouseX - startX;
+                    imageY = mouseY - startY;
+                    drawCanvas();
+                } else if (isResizing) {
+                    imageWidth = mouseX - imageX;
+                    imageHeight = mouseY - imageY;
+                    drawCanvas();
+                }
+            } else if (painting) {
                 draw(e);
             }
         }
 
-        function endPosition(e) {
-            if (!painting) return;
-
-            const endX = e.clientX - canvas.offsetLeft;
-            const endY = e.clientY - canvas.offsetTop;
-
-            if (currentShapeType !== 'none') {
-                drawShape(startX, startY, endX, endY);
+        // Handle mouse up event
+        function handleMouseUp() {
+            if (isImageEditingMode) {
+                isDragging = false;
+                isResizing = false;
+                saveState(); // Save the state after moving or resizing the image
+            } else {
+                painting = false;
+                ctx.beginPath();
+                saveState(); // Save the state after brushing
             }
+        }
 
-            painting = false;
-            ctx.beginPath();
+        // Handle double-click event to confirm image position and size
+        function handleDoubleClick() {
+            if (isImageEditingMode) {
+                isImageEditingMode = false; // Exit image editing mode
+                drawCanvas(); // Redraw without resize handles
+                saveState(); // Save the final state
+            }
+        }
 
-            // Save the canvas state after drawing
-            saveState();
+        function startPosition(e) {
+            startX = e.clientX - canvas.offsetLeft;
+            startY = e.clientY - canvas.offsetTop;
+            draw(e);
         }
 
         function draw(e) {
-            if (!painting || currentShapeType !== 'none') return;
+            if (!painting) return;
 
             ctx.lineWidth = currentBrushSize;
             ctx.strokeStyle = currentColor;
@@ -289,52 +374,10 @@
             ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
         }
 
-        function drawShape(startX, startY, endX, endY) {
-            ctx.strokeStyle = currentColor;
-            ctx.lineWidth = currentBrushSize;
-
-            switch (currentShapeType) {
-                case 'circle':
-                    const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-                    ctx.beginPath();
-                    ctx.arc(startX, startY, radius, 0, Math.PI * 2);
-                    ctx.stroke();
-                    break;
-                case 'triangle':
-                    ctx.beginPath();
-                    ctx.moveTo(startX, startY);
-                    ctx.lineTo(endX, endY);
-                    ctx.lineTo(startX * 2 - endX, endY);
-                    ctx.closePath();
-                    ctx.stroke();
-                    break;
-                case 'rectangle':
-                    ctx.strokeRect(startX, startY, endX - startX, endY - startY);
-                    break;
-                case 'square':
-                    const size = Math.max(Math.abs(endX - startX), Math.abs(endY - startY));
-                    ctx.strokeRect(startX, startY, size, size);
-                    break;
-                case 'polygon':
-                    const sides = 6; // Hexagon
-                    const angle = (Math.PI * 2) / sides;
-                    const radiusPoly = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-                    ctx.beginPath();
-                    for (let i = 0; i < sides; i++) {
-                        ctx.lineTo(
-                            startX + Math.cos(angle * i) * radiusPoly,
-                            startY + Math.sin(angle * i) * radiusPoly
-                        );
-                    }
-                    ctx.closePath();
-                    ctx.stroke();
-                    break;
-            }
-        }
-
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', endPosition);
-        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mousedown', handleMouseDown);
+        canvas.addEventListener('mousemove', handleMouseMove);
+        canvas.addEventListener('mouseup', handleMouseUp);
+        canvas.addEventListener('dblclick', handleDoubleClick);
 
         saveButton.addEventListener('click', () => {
             const image = canvas.toDataURL('image/png');
@@ -346,6 +389,8 @@
 
         clearButton.addEventListener('click', () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            image = null; // Clear the image
+            isImageEditingMode = false; // Exit image editing mode
             saveState(); // Save the cleared state
         });
 
@@ -369,13 +414,7 @@
             currentShapeType = e.target.value; // Update the shape type
         });
 
-        setBackgroundButton.addEventListener('click', () => {
-            const color = backgroundColorInput.value;
-            setBackgroundColor(color); // Set the background color
-        });
-
         // Initialize the canvas state
-        setBackgroundColor('#ffffff'); // Set default background color
         saveState();
     </script>
 </body>
