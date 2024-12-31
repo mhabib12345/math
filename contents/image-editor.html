@@ -6,88 +6,56 @@
     <title>Photo Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
     <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-        }
-
         #editor {
-            width: 90%;
-            max-width: 1200px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         #image-container {
-            margin: 20px 0;
+            margin: 20px;
+            width: 500px;
+            height: 500px;
         }
-
         #image {
             max-width: 100%;
             height: auto;
             border: 1px solid #ccc;
-            border-radius: 10px;
         }
-
         #controls {
             margin-top: 20px;
         }
-
-        .control-group {
+        .control {
             margin: 10px;
         }
-
-        .control-group label {
-            margin-bottom: 5px;
-            font-size: 14px;
+        #upload-label {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }
-
-        .control-group input[type="range"] {
-            width: 150px;
+        #upload-label:hover {
+            background-color: #0056b3;
         }
-
+        #upload-input {
+            display: none;
+        }
+        #crop-button, #save-button, #copy-button, #undo-button, #redo-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        #crop-button:hover, #save-button:hover, #copy-button:hover, #undo-button:hover, #redo-button:hover {
+            background-color: #218838;
+        }
         .crop-size-input {
             width: 80px;
             margin: 5px;
         }
-
-        button, #upload-label {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-            margin: 5px;
-        }
-
-        button:hover, #upload-label:hover {
-            background-color: #218838;
-        }
-
-        #upload-label {
-            display: inline-block;
-            text-align: center;
-        }
-
-        #upload-input {
-            display: none;
-        }
-
         #undo-button:disabled, #redo-button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
@@ -108,14 +76,10 @@
             <button id="paste-button">Paste from Clipboard</button>
 
             <!-- Crop Size Inputs -->
-            <div class="control-group">
-                <label for="crop-width">Crop Width:</label>
-                <input type="number" id="crop-width" class="crop-size-input" min="1" placeholder="Width">
-            </div>
-            <div class="control-group">
-                <label for="crop-height">Crop Height:</label>
-                <input type="number" id="crop-height" class="crop-size-input" min="1" placeholder="Height">
-            </div>
+            <label for="crop-width">Crop Width:</label>
+            <input type="number" id="crop-width" class="crop-size-input" min="1" placeholder="Width">
+            <label for="crop-height">Crop Height:</label>
+            <input type="number" id="crop-height" class="crop-size-input" min="1" placeholder="Height">
             <button id="set-crop-size">Set Crop Size</button>
 
             <!-- Crop Button -->
@@ -132,22 +96,17 @@
             <button id="redo-button" disabled>Redo</button>
 
             <!-- Image Editing Controls -->
-            <div class="control-group">
-                <label for="brightness">Brightness</label>
-                <input type="range" id="brightness" class="control" min="0" max="200" value="100">
-            </div>
-            <div class="control-group">
-                <label for="contrast">Contrast</label>
-                <input type="range" id="contrast" class="control" min="0" max="200" value="100">
-            </div>
-            <div class="control-group">
-                <label for="grayscale">Grayscale</label>
-                <input type="range" id="grayscale" class="control" min="0" max="100" value="0">
-            </div>
-            <div class="control-group">
-                <label for="hue-rotate">Hue Rotate</label>
-                <input type="range" id="hue-rotate" class="control" min="0" max="360" value="0">
-            </div>
+            <label for="brightness">Brightness</label>
+            <input type="range" id="brightness" class="control" min="0" max="200" value="100">
+            
+            <label for="contrast">Contrast</label>
+            <input type="range" id="contrast" class="control" min="0" max="200" value="100">
+            
+            <label for="grayscale">Grayscale</label>
+            <input type="range" id="grayscale" class="control" min="0" max="100" value="0">
+            
+            <label for="hue-rotate">Hue Rotate</label>
+            <input type="range" id="hue-rotate" class="control" min="0" max="360" value="0">
         </div>
     </div>
 
