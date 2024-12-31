@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+            font-family: Arial, sans-serif;
+        }
+        #tetris {
+            background-color: #000;
+            border: 2px solid #fff;
+        }
+        .info {
+            margin-left: 20px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="tetris" width="300" height="600"></canvas>
+    <div class="info">
+        <h2>Tetris</h2>
+        <p>Skor: <span id="score">0</span></p>
+        <p>Level: <span id="level">1</span></p>
+        <p>Baris: <span id="rows">0</span></p>
+        <p>Kontrol:</p>
+        <ul>
+            <li>←: Kiri</li>
+            <li>→: Kanan</li>
+            <li>↓: Turun</li>
+            <li>↑: Putar</li>
+        </ul>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tetris');
+        const context = canvas.getContext('2d');
+        const scale = 30;
+        const rows = canvas.height / scale;
+        const columns = canvas.width / scale;
+
+        let score = 0;
+        let level = 1;
+        let rowsCleared = 0;
+
+        const tetrominoes = [
+            [[1, 1, 1, 1]], // I
+            [[1, 1], [1, 1]], // O
+            [[0, 1, 0], [1, 1, 1]], // T
+            [[1, 0, 0], [1, 1, 1]], // L
+            [[0, 0, 1], [1, 1, 1]], // J
+            [[0, 1, 1], [1, 1, 0]], // S
+            [[1, 1, 0], [0, 1, 1]] // Z
+        ];
+
+        let board = Array.from({ length: rows }, () => Array(columns).fill(0));
+
+        function drawPiece(piece, offset) {
+            piece.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        context.fillStyle = 'red';
+                        context.fillRect((offset.x + x) * scale, (offset.y + y) * scale, scale, scale);
+                        context.strokeStyle = '#000';
+                        context.strokeRect((offset.x + x) * scale, (offset.y + y) * scale, scale, scale);
+                    }
+                });
+            });
+        }
+
+        function drawBoard() {
+            board.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        context.fillStyle = 'blue';
+                        context.fillRect(x * scale, y * scale, scale, scale);
+                        context.strokeStyle = '#000';
+                        context.strokeRect(x * scale, y * scale, scale, scale);
+                    }
+                });
+            });
+        }
+
+        function collide(board, piece, offset) {
+            return piece.some((row, y) => {
+                return row.some((value, x) => {
+                    return value && (board[y + offset.y] && board[y + offset.y][x + offset.x]) !== 0;
+                });
+            });
+        }
+
+        function merge(board, piece, offset) {
+            piece.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        board[y + offset.y][x + offset.x] = value;
+                    }
+                });
+            });
+        }
+
+        function clearLines() {
+            let lines = 0;
+            board.forEach((row, y) => {
+                if (row.every(value => value !== 0)) {
+                    lines++;
+                    board.splice(y, 1);
+                    board.unshift(Array(columns).fill(0));
+                }
+            });
+            if (lines > 0) {
+                score += lines * 100;
+                rowsCleared += lines;
+                if (rowsCleared >= 10) {
+                    level++;
+                    rowsCleared -= 10;
+                }
+                updateScore();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').innerText = score;
+            document.getElementById('level').innerText = level;
+            document.getElementById('rows').innerText = rowsCleared;
+        }
+
+        function rotate(piece) {
+            let newPiece = piece[0].map((val, index) => piece.map(row => row[index]).reverse());
+            return newPiece;
+        }
+
+        let piece = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+        let offset = { x: Math.floor(columns / 2) - Math.floor(piece[0].length / 2), y: 0 };
+
+        let dropCounter = 0;
+        let dropInterval = 1000;
+
+        function update(time = 0) {
+            const deltaTime = time - lastTime;
+            lastTime = time;
+
+            dropCounter += deltaTime;
+            if (dropCounter > dropInterval) {
+                offset.y++;
+                if (collide(board, piece, offset)) {
+                    offset.y--;
+                    merge(board, piece, offset);
+                    clearLines();
+                    piece = tetrominoes[Math.floor(Math.random() * tetrominoes.length)];
+                    offset = { x: Math.floor(columns / 2) - Math.floor(piece[0].length / 2), y: 0 };
+                    if (collide(board, piece, offset)) {
+                        alert('Game Over!');
+                        board = Array.from({ length: rows }, () => Array(columns).fill(0));
+                        score = 0;
+                        level = 1;
+                        rowsCleared = 0;
+                        updateScore();
+                    }
+                }
+                dropCounter = 0;
+            }
+
+            context.fillStyle = '#000';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawBoard();
+            drawPiece(piece, offset);
+
+            requestAnimationFrame(update);
+        }
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'ArrowLeft') {
+                offset.x--;
+                if (collide(board, piece, offset)) {
+                    offset.x++;
+                }
+            } else if (event.key === 'ArrowRight') {
+                offset.x++;
+                if (collide(board, piece, offset)) {
+                    offset.x--;
+                }
+            } else if (event.key === 'ArrowDown') {
+                offset.y++;
+                if (collide(board, piece, offset)) {
+                    offset.y--;
+                }
+            } else if (event.key === 'ArrowUp') {
+                let newPiece = rotate(piece);
+                if (!collide(board, newPiece, offset)) {
+                    piece = newPiece;
+                }
+            }
+        });
+
+        let lastTime = 0;
+        update();
+    </script>
+</body>
+</html>
