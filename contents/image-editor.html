@@ -41,7 +41,7 @@
         #upload-input {
             display: none;
         }
-        #crop-button, #save-button, #copy-button {
+        #crop-button, #save-button, #copy-button, #undo-button, #redo-button {
             background-color: #28a745;
             color: white;
             padding: 10px 20px;
@@ -49,12 +49,16 @@
             cursor: pointer;
             margin-bottom: 10px;
         }
-        #crop-button:hover, #save-button:hover, #copy-button:hover {
+        #crop-button:hover, #save-button:hover, #copy-button:hover, #undo-button:hover, #redo-button:hover {
             background-color: #218838;
         }
         .crop-size-input {
             width: 80px;
             margin: 5px;
+        }
+        #undo-button:disabled, #redo-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -87,6 +91,10 @@
             <!-- Copy Image Button -->
             <button id="copy-button">Copy Image</button>
 
+            <!-- Undo and Redo Buttons -->
+            <button id="undo-button" disabled>Undo</button>
+            <button id="redo-button" disabled>Redo</button>
+
             <!-- Image Editing Controls -->
             <label for="brightness">Brightness</label>
             <input type="range" id="brightness" class="control" min="0" max="200" value="100">
@@ -114,11 +122,15 @@
         const cropButton = document.getElementById('crop-button');
         const saveButton = document.getElementById('save-button');
         const copyButton = document.getElementById('copy-button');
+        const undoButton = document.getElementById('undo-button');
+        const redoButton = document.getElementById('redo-button');
         const cropWidthInput = document.getElementById('crop-width');
         const cropHeightInput = document.getElementById('crop-height');
         const setCropSizeButton = document.getElementById('set-crop-size');
 
         let cropper;
+        let history = []; // Stack to store image states
+        let currentIndex = -1; // Index of the current state
 
         // Function to update image filters
         function updateImage() {
@@ -128,6 +140,52 @@
                 grayscale(${grayscale.value}%)
                 hue-rotate(${hueRotate.value}deg)
             `;
+            saveState();
+        }
+
+        // Function to save the current image state
+        function saveState() {
+            // Remove all future states if a new state is added after undo
+            if (currentIndex < history.length - 1) {
+                history.splice(currentIndex + 1);
+            }
+            // Save the current image state
+            const state = {
+                src: image.src,
+                filter: image.style.filter,
+            };
+            history.push(state);
+            currentIndex = history.length - 1;
+            updateUndoRedoButtons();
+        }
+
+        // Function to update undo/redo button states
+        function updateUndoRedoButtons() {
+            undoButton.disabled = currentIndex <= 0;
+            redoButton.disabled = currentIndex >= history.length - 1;
+        }
+
+        // Function to undo
+        function undo() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                applyState(history[currentIndex]);
+            }
+        }
+
+        // Function to redo
+        function redo() {
+            if (currentIndex < history.length - 1) {
+                currentIndex++;
+                applyState(history[currentIndex]);
+            }
+        }
+
+        // Function to apply a saved state
+        function applyState(state) {
+            image.src = state.src;
+            image.style.filter = state.filter;
+            updateUndoRedoButtons();
         }
 
         // Event listeners for sliders
@@ -150,6 +208,7 @@
                         aspectRatio: NaN, // Disable aspect ratio
                         viewMode: 1, // Restrict crop box within the image
                     });
+                    saveState();
                 };
                 reader.readAsDataURL(file);
             }
@@ -172,6 +231,7 @@
                                 aspectRatio: NaN,
                                 viewMode: 1,
                             });
+                            saveState();
                             break;
                         }
                     }
@@ -202,6 +262,7 @@
                 if (croppedCanvas) {
                     image.src = croppedCanvas.toDataURL();
                     cropper.destroy();
+                    saveState();
                 }
             }
         });
@@ -262,6 +323,12 @@
                 alert('Failed to copy image. Make sure you have the necessary permissions.');
             }
         });
+
+        // Undo button
+        undoButton.addEventListener('click', undo);
+
+        // Redo button
+        redoButton.addEventListener('click', redo);
     </script>
 </body>
 </html>
