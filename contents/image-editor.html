@@ -41,7 +41,7 @@
         #upload-input {
             display: none;
         }
-        #crop-button, #save-button {
+        #crop-button, #save-button, #copy-button {
             background-color: #28a745;
             color: white;
             padding: 10px 20px;
@@ -49,7 +49,7 @@
             cursor: pointer;
             margin-bottom: 10px;
         }
-        #crop-button:hover, #save-button:hover {
+        #crop-button:hover, #save-button:hover, #copy-button:hover {
             background-color: #218838;
         }
         .crop-size-input {
@@ -61,7 +61,7 @@
 <body>
     <div id="editor">
         <div id="image-container">
-            <img id="image" src="placeholder.jpg" alt="Editable Image">
+            <img id="image" src="https://www.pngall.com/wp-content/uploads/7/Gallery-PNG.png" alt="Editable Image">
         </div>
         <div id="controls">
             <!-- Upload Button -->
@@ -83,6 +83,9 @@
 
             <!-- Save Button -->
             <button id="save-button">Save Image</button>
+
+            <!-- Copy Image Button -->
+            <button id="copy-button">Copy Image</button>
 
             <!-- Image Editing Controls -->
             <label for="brightness">Brightness</label>
@@ -110,6 +113,7 @@
         const pasteButton = document.getElementById('paste-button');
         const cropButton = document.getElementById('crop-button');
         const saveButton = document.getElementById('save-button');
+        const copyButton = document.getElementById('copy-button');
         const cropWidthInput = document.getElementById('crop-width');
         const cropHeightInput = document.getElementById('crop-height');
         const setCropSizeButton = document.getElementById('set-crop-size');
@@ -227,6 +231,36 @@
             link.download = 'edited-image.png'; // File name
             link.href = canvas.toDataURL('image/png'); // Convert canvas to data URL
             link.click(); // Trigger the download
+        });
+
+        // Copy image to clipboard
+        copyButton.addEventListener('click', async function() {
+            try {
+                // Create a canvas and draw the image with filters
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = image.naturalWidth;
+                canvas.height = image.naturalHeight;
+                ctx.filter = `
+                    brightness(${brightness.value}%)
+                    contrast(${contrast.value}%)
+                    grayscale(${grayscale.value}%)
+                    hue-rotate(${hueRotate.value}deg)
+                `;
+                ctx.drawImage(image, 0, 0);
+
+                // Convert canvas to a Blob
+                canvas.toBlob(async function(blob) {
+                    // Copy the Blob to the clipboard
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]);
+                    alert('Image copied to clipboard!');
+                }, 'image/png');
+            } catch (error) {
+                console.error('Failed to copy image:', error);
+                alert('Failed to copy image. Make sure you have the necessary permissions.');
+            }
         });
     </script>
 </body>
