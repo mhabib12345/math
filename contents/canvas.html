@@ -49,6 +49,17 @@
             font-size: 16px;
             cursor: pointer;
         }
+        input[type="file"] {
+            display: none; /* Hide the file input */
+        }
+        .upload-label {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -68,7 +79,6 @@
             <option value="square">Square</option>
             <option value="dotted">Dotted</option>
             <option value="paint">Paint Brush</option>
-            <option value="painting">Painting Brush</option>
         </select>
         <label for="shapeType">Shape:</label>
         <select id="shapeType">
@@ -81,6 +91,9 @@
         </select>
         <label for="backgroundColor">Background:</label>
         <input type="color" id="backgroundColor" value="#ffffff">
+        <button id="setBackgroundButton">Set Background</button>
+        <label for="uploadImage" class="upload-label">Upload Image</label>
+        <input type="file" id="uploadImage" accept="image/*">
     </div>
 
     <script>
@@ -96,6 +109,8 @@
         const brushTypeSelect = document.getElementById('brushType');
         const shapeTypeSelect = document.getElementById('shapeType');
         const backgroundColorInput = document.getElementById('backgroundColor');
+        const setBackgroundButton = document.getElementById('setBackgroundButton');
+        const uploadImageInput = document.getElementById('uploadImage');
 
         let painting = false;
         let currentColor = '#000000'; // Default color
@@ -160,10 +175,56 @@
 
         // Set the canvas background color
         function setBackgroundColor(color) {
+            // Save the current drawing
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+            // Fill the canvas with the new background color
             ctx.fillStyle = color;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            saveState(); // Save the state after changing the background
+
+            // Redraw the saved content on top of the new background
+            ctx.putImageData(imageData, 0, 0);
+
+            // Save the updated state
+            saveState();
         }
+
+        // Upload image and draw it on the canvas
+        uploadImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        saveState(); // Save the state after uploading the image
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Paste image from clipboard
+        document.addEventListener('paste', (e) => {
+            const items = e.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const blob = items[i].getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const img = new Image();
+                        img.src = event.target.result;
+                        img.onload = () => {
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            saveState(); // Save the state after pasting the image
+                        };
+                    };
+                    reader.readAsDataURL(blob);
+                }
+            }
+        });
 
         function startPosition(e) {
             painting = true;
@@ -221,20 +282,6 @@
                     ctx.lineCap = 'round';
                     ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
                     ctx.stroke();
-                    break;
-                case 'painting':
-                    // Soft painting brush effect
-                    ctx.lineCap = 'round';
-                    ctx.globalAlpha = 0.3; // Lower opacity for softer strokes
-                    for (let i = 0; i < 5; i++) {
-                        // Draw multiple overlapping strokes with subtle randomness
-                        ctx.lineTo(
-                            e.clientX - canvas.offsetLeft + (Math.random() - 0.5) * currentBrushSize / 2,
-                            e.clientY - canvas.offsetTop + (Math.random() - 0.5) * currentBrushSize / 2
-                        );
-                        ctx.stroke();
-                    }
-                    ctx.globalAlpha = 1; // Reset opacity
                     break;
             }
 
@@ -322,8 +369,9 @@
             currentShapeType = e.target.value; // Update the shape type
         });
 
-        backgroundColorInput.addEventListener('input', (e) => {
-            setBackgroundColor(e.target.value); // Update the background color
+        setBackgroundButton.addEventListener('click', () => {
+            const color = backgroundColorInput.value;
+            setBackgroundColor(color); // Set the background color
         });
 
         // Initialize the canvas state
