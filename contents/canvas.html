@@ -6,12 +6,13 @@
     <title>Canvas Paint</title>
     <style>
         body {
+            margin: 0;
+            overflow: hidden; /* Prevent scrollbars */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
             background-color: #f0f0f0;
         }
         canvas {
@@ -20,10 +21,17 @@
             cursor: crosshair;
         }
         .controls {
-            margin-top: 10px;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
             gap: 10px;
             align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         button {
             padding: 10px 20px;
@@ -63,7 +71,7 @@
     </style>
 </head>
 <body>
-    <canvas id="paintCanvas" width="800" height="600"></canvas>
+    <canvas id="paintCanvas"></canvas>
     <div class="controls">
         <button id="saveButton">Save Image</button>
         <button id="clearButton">Clear Canvas</button>
@@ -106,6 +114,14 @@
         const brushTypeSelect = document.getElementById('brushType');
         const shapeTypeSelect = document.getElementById('shapeType');
         const uploadImageInput = document.getElementById('uploadImage');
+
+        // Set canvas size to display size
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize);
 
         let painting = false;
         let currentColor = '#000000'; // Default color
@@ -188,8 +204,24 @@
                     image = new Image();
                     image.src = event.target.result;
                     image.onload = () => {
-                        imageWidth = image.width;
-                        imageHeight = image.height;
+                        // Maintain aspect ratio
+                        const maxWidth = canvas.width * 0.8; // 80% of canvas width
+                        const maxHeight = canvas.height * 0.8; // 80% of canvas height
+                        const aspectRatio = image.width / image.height;
+
+                        if (image.width > maxWidth || image.height > maxHeight) {
+                            if (maxWidth / aspectRatio <= maxHeight) {
+                                imageWidth = maxWidth;
+                                imageHeight = maxWidth / aspectRatio;
+                            } else {
+                                imageHeight = maxHeight;
+                                imageWidth = maxHeight * aspectRatio;
+                            }
+                        } else {
+                            imageWidth = image.width;
+                            imageHeight = image.height;
+                        }
+
                         imageX = (canvas.width - imageWidth) / 2;
                         imageY = (canvas.height - imageHeight) / 2;
                         isImageEditingMode = true; // Enter image editing mode
@@ -212,8 +244,24 @@
                         image = new Image();
                         image.src = event.target.result;
                         image.onload = () => {
-                            imageWidth = image.width;
-                            imageHeight = image.height;
+                            // Maintain aspect ratio
+                            const maxWidth = canvas.width * 0.8; // 80% of canvas width
+                            const maxHeight = canvas.height * 0.8; // 80% of canvas height
+                            const aspectRatio = image.width / image.height;
+
+                            if (image.width > maxWidth || image.height > maxHeight) {
+                                if (maxWidth / aspectRatio <= maxHeight) {
+                                    imageWidth = maxWidth;
+                                    imageHeight = maxWidth / aspectRatio;
+                                } else {
+                                    imageHeight = maxHeight;
+                                    imageWidth = maxHeight * aspectRatio;
+                                }
+                            } else {
+                                imageWidth = image.width;
+                                imageHeight = image.height;
+                            }
+
                             imageX = (canvas.width - imageWidth) / 2;
                             imageY = (canvas.height - imageHeight) / 2;
                             isImageEditingMode = true; // Enter image editing mode
@@ -301,8 +349,10 @@
                     imageY = mouseY - startY;
                     drawCanvas();
                 } else if (isResizing) {
+                    // Maintain aspect ratio while resizing
+                    const aspectRatio = imageWidth / imageHeight;
                     imageWidth = mouseX - imageX;
-                    imageHeight = mouseY - imageY;
+                    imageHeight = imageWidth / aspectRatio;
                     drawCanvas();
                 }
             } else if (painting) {
