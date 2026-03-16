@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>question · rectangle slides</title>
+  <style>
+    /* RESET & GLOBAL */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f2f4f8;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+    }
+
+    /* main slide container – exactly one question per view */
+    .slide-viewer {
+      width: 100%;
+      max-width: 980px;         /* comfortable on big screens, still scales down */
+      margin: 0 auto;
+    }
+
+    /* each slide is a full-width block, but we show only one at a time */
+    .slide {
+      display: none;            /* hide all by default – JS will show active */
+    }
+
+    .slide.active {
+      display: block;           /* only the current slide is visible */
+    }
+
+    /* rectangle outline – the star of the show */
+    .question-card {
+      width: 100%;
+      background: #ffffff;
+      border: 3px solid #1e293b;    /* solid outline – rectangle emphasis */
+      border-radius: 24px;          /* slightly rounded, but keeps rectangle character */
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+      padding: clamp(1.5rem, 6vw, 3.5rem);  /* responsive padding */
+      display: flex;
+      flex-direction: column;
+      transition: border 0.1s ease;
+
+      /* ensure the outline is crisp on any background */
+      outline: none;
+    }
+
+    /* optional subtle hover effect – keeps the rectangle feel */
+    .question-card:hover {
+      border-color: #0f172a;
+      box-shadow: 0 20px 28px -10px rgba(0, 20, 40, 0.25);
+    }
+
+    /* typography – scales perfectly */
+    .question-text {
+      font-size: clamp(1.4rem, 5vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.4;
+      color: #0b1e33;
+      margin-bottom: 1.2rem;
+      word-break: break-word;
+    }
+
+    .meta-info {
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      color: #475569;
+      border-top: 2px dashed #cbd5e1;
+      padding-top: 1.2rem;
+      margin-top: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+    }
+
+    .slide-counter {
+      background: #e9eef3;
+      padding: 0.3rem 1rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.9em;
+      border: 1px solid #b9c7da;
+    }
+
+    /* navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      margin-top: 2.2rem;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: white;
+      border: 2px solid #1e293b;
+      color: #1e293b;
+      font-size: 1.3rem;
+      font-weight: 600;
+      width: 3.2rem;
+      height: 3.2rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      user-select: none;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: #1e293b;
+      color: white;
+      border-color: #0f172a;
+      transform: scale(1.02);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.35;
+      border-color: #94a3b8;
+      background: #e2e8f0;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .page-indicator {
+      font-size: 1.2rem;
+      font-weight: 500;
+      background: #ffffffd9;
+      padding: 0.5rem 1.4rem;
+      border-radius: 48px;
+      border: 1px solid #cbd5e1;
+      backdrop-filter: blur(2px);
+    }
+
+    /* optional footer */
+    .footnote {
+      margin-top: 2rem;
+      color: #5f6c80;
+      font-size: 0.9rem;
+    }
+
+    /* ensure rectangle stretches full width on tiny mobile */
+    @media (max-width: 420px) {
+      body {
+        padding: 6px;
+      }
+      .question-card {
+        border-width: 2px;       /* slightly thinner but still rectangle outline */
+        border-radius: 18px;
+      }
+    }
+  </style>
+  <!-- load inter font (optional, just cleaner) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="slide-viewer">
+  <!-- SLIDE 1 (active by default) -->
+  <div class="slide active" id="slide1">
+    <div class="question-card">
+      <div class="question-text">📐 A rectangle has a length of 12 cm and width 8 cm. What is the perimeter?</div>
+      <div class="meta-info">
+        <span class="slide-counter">question 1 / 5</span>
+        <span style="font-weight: 500;">✏️ geometry · easy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide" id="slide2">
+    <div class="question-card">
+      <div class="question-text">🧮 If a train travels 240 miles in 4 hours, what is its average speed in miles per hour?</div>
+      <div class="meta-info">
+        <span class="slide-counter">question 2 / 5</span>
+        <span style="font-weight: 500;">🚆 speed · word problem</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide" id="slide3">
+    <div class="question-card">
+      <div class="question-text">⚖️ Solve for x: 5(x − 3) = 2x + 9</div>
+      <div class="meta-info">
+        <span class="slide-counter">question 3 / 5</span>
+        <span style="font-weight: 500;">🧠 algebra · linear</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide" id="slide4">
+    <div class="question-card">
+      <div class="question-text">📊 A pizza has 8 slices. If 3 slices are eaten, what fraction of the pizza remains?</div>
+      <div class="meta-info">
+        <span class="slide-counter">question 4 / 5</span>
+        <span style="font-weight: 500;">🍕 fractions · real life</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide" id="slide5">
+    <div class="question-card">
+      <div class="question-text">🌡️ Convert 25° Celsius to Fahrenheit. (Formula: °F = °C × 9/5 + 32)</div>
+      <div class="meta-info">
+        <span class="slide-counter">question 5 / 5</span>
+        <span style="font-weight: 500;">🌍 conversion · formulas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- simple navigation -->
+  <div class="nav-controls">
+    <button class="nav-btn" id="prevSlide" aria-label="previous question" disabled>←</button>
+    <span class="page-indicator" id="pageIndicator">1 / 5</span>
+    <button class="nav-btn" id="nextSlide" aria-label="next question">→</button>
+  </div>
+</div>
+
+<div class="footnote">
+  ⬜ each question in a solid rectangle — scales to any screen
+</div>
+
+<script>
+  (function() {
+    // get all slides
+    const slides = document.querySelectorAll('.slide');
+    const prevButton = document.getElementById('prevSlide');
+    const nextButton = document.getElementById('nextSlide');
+    const indicator = document.getElementById('pageIndicator');
+
+    let currentIndex = 0;        // zero-based (slide1 = index0)
+    const totalSlides = slides.length;
+
+    // helper: update active slide, button states, indicator
+    function showSlide(index) {
+      // hide all slides
+      slides.forEach(slide => slide.classList.remove('active'));
+      // show current
+      slides[index].classList.add('active');
+
+      // update indicator text (human readable: 1/5 ...)
+      indicator.textContent = (index + 1) + ' / ' + totalSlides;
+
+      // disable prev/next if at boundaries
+      prevButton.disabled = (index === 0);
+      nextButton.disabled = (index === totalSlides - 1);
+    }
+
+    // event listeners
+    prevButton.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showSlide(currentIndex);
+      }
+    });
+
+    nextButton.addEventListener('click', () => {
+      if (currentIndex < totalSlides - 1) {
+        currentIndex++;
+        showSlide(currentIndex);
+      }
+    });
+
+    // optional: keyboard left/right arrow navigation
+    window.addEventListener('keydown', (e) => {
+      // only if the key is arrow left or right, and no input/textarea focused
+      if (e.key === 'ArrowLeft' && !prevButton.disabled) {
+        e.preventDefault();   // avoid scrolling
+        prevButton.click();
+      } else if (e.key === 'ArrowRight' && !nextButton.disabled) {
+        e.preventDefault();
+        nextButton.click();
+      }
+    });
+
+    // initialise (ensure correct state, though slide1 active by default)
+    showSlide(currentIndex);
+  })();
+</script>
+
+<!-- 
+  Additional note: 
+  The outline rectangle adapts because .question-card uses width:100% 
+  inside .slide-viewer with max-width, and padding uses clamp.
+  All slides share the same sturdy rectangle outline.
+  Mobile scaling: viewport meta + flexible padding + font clamp.
+-->
+</body>
+</html>
