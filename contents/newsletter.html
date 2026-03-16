@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter Mingguan • Hitam Putih</title>
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #000000;
+        }
+        
+        /* Header */
+        .header {
+            padding: 30px 30px 20px;
+            border-bottom: 2px solid #000000;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+        
+        .header .date {
+            font-size: 14px;
+            color: #444444;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header .edition {
+            font-size: 12px;
+            color: #666666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        /* Content */
+        .content {
+            padding: 30px;
+        }
+        
+        /* Section */
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #000000;
+            color: #000000;
+        }
+        
+        /* Article */
+        .article {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #dddddd;
+        }
+        
+        .article:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .article-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+        
+        .article-meta {
+            font-size: 12px;
+            color: #666666;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .article-excerpt {
+            font-size: 15px;
+            color: #222222;
+            margin-bottom: 12px;
+        }
+        
+        .read-more {
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #000000;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 2px;
+        }
+        
+        .read-more:hover {
+            opacity: 0.7;
+        }
+        
+        /* List Items */
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        
+        .list-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .list-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #cccccc;
+            line-height: 1;
+            min-width: 40px;
+        }
+        
+        .list-content {
+            flex: 1;
+        }
+        
+        .list-content h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #000000;
+        }
+        
+        .list-content p {
+            font-size: 14px;
+            color: #444444;
+        }
+        
+        /* Quote */
+        .quote {
+            margin: 30px 0;
+            padding: 20px 25px;
+            background: #f5f5f5;
+            border-left: 4px solid #000000;
+        }
+        
+        .quote p {
+            font-size: 18px;
+            font-style: italic;
+            color: #111111;
+            margin-bottom: 10px;
+        }
+        
+        .quote .author {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555555;
+            text-align: right;
+        }
+        
+        /* Tips Grid */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .tip-card {
+            background: #fafafa;
+            padding: 20px;
+            border: 1px solid #dddddd;
+        }
+        
+        .tip-number {
+            font-size: 14px;
+            font-weight: 700;
+            color: #888888;
+            margin-bottom: 8px;
+        }
+        
+        .tip-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #000000;
+        }
+        
+        .tip-desc {
+            font-size: 13px;
+            color: #444444;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 480px) {
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .stat-item {
+            flex: 1;
+            padding: 20px 10px;
+            background: #f8f8f8;
+            border: 1px solid #dddddd;
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #000000;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #555555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Divider */
+        .divider {
+            margin: 30px 0;
+            border-top: 2px dashed #cccccc;
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 30px;
+            background: #f5f5f5;
+            border-top: 2px solid #000000;
+            font-size: 13px;
+            color: #444444;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer-address {
+            text-align: center;
+            margin-bottom: 15px;
+            font-style: normal;
+        }
+        
+        .footer-copyright {
+            text-align: center;
+            color: #777777;
+            font-size: 11px;
+            border-top: 1px solid #dddddd;
+            padding-top: 15px;
+        }
+        
+        /* Subscribe */
+        .subscribe-box {
+            background: #ffffff;
+            border: 2px solid #000000;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .subscribe-box h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .subscribe-box p {
+            font-size: 14px;
+            color: #444444;
+            margin-bottom: 20px;
+        }
+        
+        .subscribe-input {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .subscribe-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #999999;
+            font-size: 14px;
+            background: #ffffff;
+            color: #000000;
+        }
+        
+        .subscribe-input input:focus {
+            outline: 2px solid #000000;
+        }
+        
+        .subscribe-input button {
+            padding: 12px 20px;
+            background: #000000;
+            color: #ffffff;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        
+        .subscribe-input button:hover {
+            background: #333333;
+        }
+        
+        @media (max-width: 480px) {
+            .subscribe-input {
+                flex-direction: column;
+            }
+        }
+        
+        /* Button */
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+        }
+        
+        .button:hover {
+            background: #333333;
+        }
+        
+        /* Social Icons (text only) */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .social-icons a {
+            color: #000000;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 5px 10px;
+            border: 1px solid #999999;
+        }
+        
+        .social-icons a:hover {
+            background: #f0f0f0;
+        }
+        
+        /* HR */
+        hr {
+            border: none;
+            border-top: 2px solid #000000;
+            margin: 20px 0;
+        }
+        
+        hr.dotted {
+            border-top: 2px dotted #999999;
+        }
+        
+        /* Text utilities */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-small { font-size: 12px; color: #666666; }
+        .text-bold { font-weight: 700; }
+        .text-uppercase { text-transform: uppercase; }
+        
+        .mt-4 { margin-top: 30px; }
+        .mb-4 { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>NEWSLETTER MINGGUAN</h1>
+            <div class="date">EDISI 24 • 16 MARET 2026</div>
+            <div class="edition">━━  HITAM PUTIH  ━━</div>
+        </div>
+        
+        <!-- CONTENT -->
+        <div class="content">
+            <!-- SECTION: EDITORIAL -->
+            <div class="section">
+                <div class="section-title">EDITORIAL</div>
+                <div class="article">
+                    <div class="article-title">Salam Pembaca Setia</div>
+                    <div class="article-meta">Redaksi • 3 menit membaca</div>
+                    <div class="article-excerpt">
+                        Selamat datang di edisi ke-24 Newsletter Mingguan. Di tengah hiruk-pikuk informasi digital, kami hadir dengan format yang sederhana: hitam putih, tanpa gambar, tanpa warna. Hanya kata-kata dan ide. Selamat membaca.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECTION: BERITA UTAMA -->
+            <div class="section">
+                <div class="section-title">BERITA UTAMA</div>
+                
+                <div class="article">
+                    <div class="article-title">Perubahan Kebijakan Pendidikan 2026: Apa yang Perlu Diketahui</div>
+                    <div class="article-meta">Oleh: Tim Edukasi • 5 menit lalu</div>
+                    <div class="article-excerpt">
+                        Kementerian Pendidikan resmi mengumumkan penyesuaian kurikulum yang akan mulai diterapkan tahun ajaran depan. Fokus utama adalah penguatan literasi digital dan fleksibilitas mata pelajaran pilihan bagi siswa SMA. Kebijakan ini mendapat beragam respons dari pelaku pendidikan.
+                    </div>
+                    <a href="#" class="read-more">Baca selengkapnya →</a>
+                </div>
+                
+                <div class="article">
+                    <div class="article-title">Startup Lokal Berhasil Pendanaan Rp 200 Miliar</div>
+                    <div class="article-meta">Oleh: Redaksi Bisnis • 2 jam lalu</div>
+                    <div class="article-excerpt">
+                        Perusahaan rintisan di bidang edtech asal Bandung mengumumkan pendanaan Seri A yang dipimpin investor regional. Pendanaan ini akan digunakan untuk ekspansi pasar ke Asia Tenggara.
+                    </div>
+                    <a href="#" class="read-more">Baca selengkapnya →</a>
+                </div>
+            </div>
+            
+            <!-- QUOTE -->
+            <div class="quote">
+                <p>"Kesederhanaan adalah kecanggihan tertinggi."</p>
+                <div class="author">— Leonardo da Vinci</div>
+            </div>
+            
+            <!-- SECTION: TIPS MINGGU INI -->
+            <div class="section">
+                <div class="section-title">TIPS MINGGU INI</div>
+                
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-number">#01</div>
+                        <div class="tip-title">Digital Detox</div>
+                        <div class="tip-desc">Luangkan 1 jam tanpa gadget setiap pagi. Mulai hari dengan jernih.</div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-number">#02</div>
+                        <div class="tip-title">Journaling</div>
+                        <div class="tip-desc">Tulis 3 hal yang kamu syukuri hari ini. Latih otak untuk positif.</div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-number">#03</div>
+                        <div class="tip-title">Baca Buku Fisik</div>
+                        <div class="tip-desc">30 menit membaca sebelum tidur meningkatkan kualitas istirahat.</div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-number">#04</div>
+                        <div class="tip-title">Minum Air Putih</div>
+                        <div class="tip-desc">8 gelas sehari. Tubuh butuh hidrasi untuk berpikir optimal.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="dotted">
+            
+            <!-- SECTION: LIST REKOMENDASI -->
+            <div class="section">
+                <div class="section-title">REKOMENDASI MINGGU INI</div>
+                
+                <div class="list-item">
+                    <div class="list-number">01</div>
+                    <div class="list-content">
+                        <h4>Buku: "Filosofi Teras" - Henry Manampiring</h4>
+                        <p>Pengantar Stoikisme yang relevan dengan kehidupan modern. Ringan, praktis, mengubah cara pandang.</p>
+                    </div>
+                </div>
+                
+                <div class="list-item">
+                    <div class="list-number">02</div>
+                    <div class="list-content">
+                        <h4>Podcast: "Rintik Sedu"</h4>
+                        <p>Episode tentang memulai hal baru di usia 20-an. Cocok didengar sambil bekerja.</p>
+                    </div>
+                </div>
+                
+                <div class="list-item">
+                    <div class="list-number">03</div>
+                    <div class="list-content">
+                        <h4>Aplikasi: "Minimalist Notes"</h4>
+                        <p>Aplikasi catatan tanpa distraksi. Hanya teks polos, tidak ada format, tidak ada gambar.</p>
+                    </div>
+                </div>
+                
+                <div class="list-item">
+                    <div class="list-number">04</div>
+                    <div class="list-content">
+                        <h4>Film Dokumenter: "Minimalism" (Netflix)</h4>
+                        <p>Tentang hidup dengan lebih sedikit barang dan lebih banyak makna.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- STATISTIK -->
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">ARTIKEL</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3.4K</div>
+                    <div class="stat-label">PEMBACA</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">87%</div>
+                    <div class="stat-label">OPEN RATE</div>
+                </div>
+            </div>
+            
+            <!-- SECTION: SURAT PEMBACA -->
+            <div class="section">
+                <div class="section-title">SURAT PEMBACA</div>
+                
+                <div class="article">
+                    <div class="article-title">"Terima kasih untuk edisi minimalis"</div>
+                    <div class="article-meta">Dari: Andini, Yogyakarta</div>
+                    <div class="article-excerpt">
+                        Saya suka dengan format newsletter ini. Tanpa gambar, tanpa warna, jadi fokus ke konten. Harap terus dipertahankan. Di era serba ramai, justru yang sederhana yang menenangkan.
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-title">"Request topik tentang produktivitas"</div>
+                    <div class="article-meta">Dari: Bayu, Jakarta</div>
+                    <div class="article-excerpt">
+                        Mungkin minggu depan bisa bahas soal teknik produktivitas untuk pekerja remote. Saya dan teman-teman butuh referensi.
+                    </div>
+                </div>
+                
+                <div class="text-right text-small mt-4">
+                    Kirim surat ke: redaksi@newsletter.com
+                </div>
+            </div>
+            
+            <!-- SUBSCRIBE BOX -->
+            <div class="subscribe-box">
+                <h3>BERLANGGANAN GRATIS</h3>
+                <p>Dapatkan newsletter setiap minggu di email kamu. Gratis, tanpa spam, bisa berhenti kapan saja.</p>
+                
+                <div class="subscribe-input">
+                    <input type="email" placeholder="Alamat email kamu" value="pembaca@contoh.com">
+                    <button>LANGGANAN</button>
+                </div>
+                
+                <p class="text-small" style="margin-top: 15px; margin-bottom: 0;">
+                    Kami tidak akan membagikan emailmu.
+                </p>
+            </div>
+            
+            <hr>
+            
+            <!-- SECTION: INFO SINGKAT -->
+            <div style="display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin: 30px 0; font-size: 13px;">
+                <div>
+                    <span class="text-bold">📌 AGENDA:</span> Webinar "Menulis Efektif" 20 Maret
+                </div>
+                <div>
+                    <span class="text-bold">📅 POLLING:</span> Topik apa yang kamu suka?
+                </div>
+                <div>
+                    <span class="text-bold">📊 QUIZ:</span> Ikuti kuis mingguan
+                </div>
+            </div>
+            
+            <!-- SOCIAL MEDIA -->
+            <div class="social-icons">
+                <a href="#">TWITTER</a>
+                <a href="#">INSTAGRAM</a>
+                <a href="#">TELEGRAM</a>
+                <a href="#">WEBSITE</a>
+            </div>
+            
+            <div class="text-center text-small" style="margin: 20px 0;">
+                Bagikan newsletter ini ke temanmu: <span class="text-bold">newsletter.com/24</span>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#">TENTANG KAMI</a>
+                <a href="#">ARSIP</a>
+                <a href="#">BERLANGGANAN</a>
+                <a href="#">BERHENTI</a>
+                <a href="#">HUBUNGI</a>
+                <a href="#">PRIVASI</a>
+            </div>
+            
+            <div class="footer-address">
+                Newsletter Mingguan • Jl. M.H. Thamrin No. 10, Jakarta 10230<br>
+                © 2026 PT Media Sederhana. All rights reserved.
+            </div>
+            
+            <div class="footer-copyright">
+                Didistribusikan secara gratis. Jika ada yang menjual newsletter ini, laporkan ke kami.<br>
+                Anda menerima email ini karena mendaftar di newsletter.com atau mengikuti event kami.
+                <p style="margin-top: 10px;">
+                    <a href="#" style="color: #777777;">Berhenti berlangganan</a> • 
+                    <a href="#" style="color: #777777;">Lihat di browser</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- EMAIL COMPATIBILITY NOTE -->
+    <div style="max-width: 600px; margin: 20px auto 0; text-align: center; font-size: 11px; color: #999999; padding: 0 20px;">
+        <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+        <p>Newsletter ini dioptimalkan untuk tampilan di semua perangkat. Tampilan terbaik dengan mode gelap/mati.</p>
+        <p>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</p>
+    </div>
+</body>
+</html>
