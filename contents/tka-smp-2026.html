@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Struktur TKA SMP 2026 - Kemendikdasmen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            color: #1e293b;
+            background: #f8fafc;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Kartu Utama */
+        .card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -10px rgba(0,40,80,0.15);
+            padding: clamp(20px, 5vw, 36px);
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,112,244,0.1);
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: clamp(28px, 6vw, 44px);
+        }
+        
+        .header h1 {
+            font-size: clamp(26px, 7vw, 44px);
+            font-weight: 800;
+            background: linear-gradient(145deg, #003b6f, #0070f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        
+        .header h2 {
+            font-size: clamp(16px, 4vw, 24px);
+            color: #475569;
+            font-weight: 500;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 16px;
+            border: 1px solid #bae6fd;
+        }
+        
+        /* Grid 2 Kolom */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(16px, 3vw, 28px);
+            margin-bottom: clamp(28px, 5vw, 44px);
+        }
+        
+        @media (max-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Kartu Tes */
+        .test-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: clamp(18px, 4vw, 26px);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+        
+        .test-card:hover {
+            border-color: #0070f0;
+            box-shadow: 0 20px 30px -12px rgba(0,112,240,0.12);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #eef2f6;
+        }
+        
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(145deg, #003b6f, #0070f0);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            box-shadow: 0 8px 16px -4px rgba(0,112,240,0.3);
+        }
+        
+        .card-title {
+            flex: 1;
+        }
+        
+        .card-title h3 {
+            font-size: clamp(18px, 5vw, 24px);
+            font-weight: 700;
+            color: #0b2b4a;
+            line-height: 1.3;
+        }
+        
+        .card-title p {
+            color: #64748b;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* Statistik */
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: #f1f5f9;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-item.highlight {
+            background: #e0f2fe;
+            color: #0369a1;
+            border-color: #7dd3fc;
+        }
+        
+        /* Tabel Responsif */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 16px 0 8px;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 16px;
+            border: 1px solid #e9eef2;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(13px, 4vw, 15px);
+            min-width: 280px;
+        }
+        
+        th {
+            background: #f1f5f9;
+            color: #1e293b;
+            font-weight: 600;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e9eef2;
+            background: white;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table-note {
+            background: #f8fafc;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #475569;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px dashed #cbd5e1;
+        }
+        
+        /* Diagram Alur */
+        .timeline {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 24px;
+            margin: 28px 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .timeline h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0b2b4a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .timeline-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .timeline-item {
+            background: white;
+            padding: 16px;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .timeline-date {
+            font-size: 14px;
+            color: #0070f0;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+        
+        .timeline-desc {
+            font-weight: 600;
+            color: #0b2b4a;
+            font-size: 15px;
+        }
+        
+        .timeline-desc small {
+            font-weight: 400;
+            color: #64748b;
+            font-size: 13px;
+            display: block;
+            margin-top: 4px;
+        }
+        
+        /* Bentuk Soal */
+        .soal-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin: 16px 0;
+        }
+        
+        .soal-type-item {
+            background: #f1f5f9;
+            border-radius: 20px;
+            padding: 16px 14px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        
+        .soal-type-item:hover {
+            background: #e0f2fe;
+            border-color: #0070f0;
+        }
+        
+        .soal-type-title {
+            font-weight: 700;
+            color: #0b2b4a;
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+        
+        .soal-type-desc {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.4;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(145deg, #f1f9ff, #ffffff);
+            border-radius: 28px;
+            padding: clamp(20px, 4vw, 30px);
+            margin: 28px 0;
+            border: 1px solid #b8dffa;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+        }
+        
+        .info-item {
+            background: white;
+            padding: 16px 18px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid #e9eef2;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 6px;
+        }
+        
+        .info-value {
+            font-size: clamp(16px, 4vw, 22px);
+            font-weight: 700;
+            color: #0b2b4a;
+        }
+        
+        .info-desc {
+            font-size: 13px;
+            color: #475569;
+            margin-top: 4px;
+        }
+        
+        /* Kompetensi Section */
+        .competency-box {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .competency-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        
+        .tag {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        /* Total Box */
+        .total-box {
+            background: linear-gradient(145deg, #0b2b4a, #003b6f);
+            border-radius: 30px;
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .total-number {
+            font-size: clamp(40px, 10vw, 68px);
+            font-weight: 800;
+            line-height: 1.1;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .total-label {
+            font-size: 16px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+        
+        .total-sub {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        /* Footer & Citation */
+        .footer-note {
+            margin-top: 28px;
+            padding: 24px;
+            background: #f1f5f9;
+            border-radius: 24px;
+            font-size: 14px;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+        }
+        
+        .citation-list {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0 0 0;
+            border-top: 2px solid #cbd5e1;
+            padding-top: 16px;
+        }
+        
+        .citation-list li {
+            padding: 8px 0 8px 28px;
+            position: relative;
+            font-size: 13px;
+            color: #334155;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+        
+        .citation-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .citation-list li:before {
+            content: "📌";
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            font-size: 14px;
+        }
+        
+        .reference-item {
+            margin: 12px 0;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 16px;
+            border-left: 4px solid #0070f0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .ref-title {
+            font-weight: 700;
+            color: #0b2b4a;
+            margin-bottom: 4px;
+        }
+        
+        .ref-source {
+            color: #475569;
+            font-style: italic;
+        }
+        
+        .ref-link {
+            color: #0070f0;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .ref-link:hover {
+            text-decoration: underline;
+        }
+        
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .bullet-list li {
+            padding: 8px 0 8px 24px;
+            position: relative;
+            font-size: 14px;
+            border-bottom: 1px dashed #e9eef2;
+        }
+        
+        .bullet-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .bullet-list li:before {
+            content: "•";
+            color: #0070f0;
+            font-weight: bold;
+            font-size: 18px;
+            position: absolute;
+            left: 6px;
+            top: 6px;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px dashed #cbd5e1;
+            margin: 24px 0;
+        }
+        
+        .citation-badge {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .source-footnote {
+            font-size: 12px;
+            color: #64748b;
+            text-align: right;
+            margin-top: 8px;
+            border-top: 1px dotted #cbd5e1;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Utama -->
+        <div class="card">
+            <div class="header">
+                <h1>📋 STRUKTUR TKA SMP 2026</h1>
+                <h2>Tes Kemampuan Akademik Jenjang SMP/MTs Sederajat</h2>
+                <div class="badge">
+                    ⚡ Berdasarkan Permendikdasmen No. 9 Tahun 2026 & Kepmendikdasmen No. 95/2025
+                </div>
+            </div>
+
+            <!-- INTEGRASI DENGAN ASESMEN NASIONAL - INFO PENTING DENGAN CITATION -->
+            <div style="background: #e0f2fe; border-radius: 24px; padding: 18px 22px; margin-bottom: 30px; border-left: 6px solid #0070f0;">
+                <div style="display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;">
+                    <span style="background: #0070f0; color: white; padding: 6px 18px; border-radius: 40px; font-weight: 700; font-size: 14px;">🔥 INTEGRASI BARU 2026</span>
+                    <p style="font-weight: 500; color: #003b6f; margin: 0;"><strong>TKA terintegrasi dengan Asesmen Nasional (AN)</strong> untuk kelas akhir <span class="citation-badge">Kemendikdasmen, 2026, hlm. 4</span>. Hasil TKA mencerminkan rapor pendidikan satuan pendidikan dan menjadi indikator status "memadai" sekolah/madrasah <span class="citation-badge">Pusmendik, 2025</span>.</p>
+                </div>
+            </div>
+
+            <!-- Timeline Penting DENGAN CITATION -->
+            <div class="timeline">
+                <h4>📅 TAHAPAN PELAKSANAAN TKA SMP 2026 <span class="citation-badge">BSKAP No. 12/2026</span></h4>
+                <div class="timeline-grid">
+                    <div class="timeline-item">
+                        <div class="timeline-date">19 Jan - 28 Feb 2026</div>
+                        <div class="timeline-desc">Pendaftaran Peserta <small> melalui operator sekolah</small></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">23 Feb - 1 Mar 2026</div>
+                        <div class="timeline-desc">Simulasi TKA SMP <small>pengenalan sistem</small></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">9 - 17 Maret 2026</div>
+                        <div class="timeline-desc">Gladi Bersih <small>SD & SMP</small></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">6 - 16 April 2026</div>
+                        <div class="timeline-desc">📍 PELAKSANAAN UTAMA <small>TKA SMP</small></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">11 - 19 Mei 2026</div>
+                        <div class="timeline-desc">Ujian Susulan <small>kendala teknis/cuaca</small></div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">25 Mei 2026</div>
+                        <div class="timeline-desc">Pengumuman Hasil <small>SHTKA diterbitkan</small></div>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: #475569; margin-top: 16px; background: white; padding: 10px; border-radius: 12px;">
+                    ⚠️ <strong>Batas akhir pendataan peserta:</strong> 27 Februari 2026 (aliran data EMIS) • 28 Februari 2026 (SPTJM) <span class="citation-badge">Kepmendikdasmen No. 95/2025, Pasal 8</span>
+                </p>
+            </div>
+
+            <!-- STRUKTUR UTAMA 2 HARI -->
+            <div style="text-align: center; margin: 20px 0 30px;">
+                <span style="background: #003b6f; color: white; padding: 10px 30px; border-radius: 60px; font-weight: 700; font-size: 20px;">🗓️ PELAKSANAAN 2 HARI</span>
+            </div>
+
+            <!-- Grid 2 Kolom untuk Hari 1 dan Hari 2 -->
+            <div class="grid-2">
+                <!-- HARI 1: MATEMATIKA -->
+                <div class="test-card">
+                    <div class="card-header">
+                        <div class="card-icon">📐</div>
+                        <div class="card-title">
+                            <h3>HARI PERTAMA</h3>
+                            <p>Matematika & Numerasi</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <span class="stat-item">⏱️ 10 menit latihan</span>
+                        <span class="stat-item highlight">📝 75 menit soal</span>
+                        <span class="stat-item">📊 20 menit survei karakter</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <tr><th>Komponen</th><th>Durasi</th><th>Keterangan</th></tr>
+                            <tr><td>Latihan Soal</td><td>10 menit</td><td>pemanasan sistem <span class="citation-badge">Pusmendik, 2026</span></td></tr>
+                            <tr><td><strong>Pengerjaan Soal Matematika</strong></td><td><strong>75 menit</strong></td><td>30 soal pusat + daerah <span class="citation-badge">BSKAP No. 12/2026</span></td></tr>
+                            <tr><td>Survei Karakter</td><td>20 menit</td><td>non-akademik <span class="citation-badge">Kemendikdasmen, 2026</span></td></tr>
+                        </table>
+                    </div>
+
+                    <div class="competency-box">
+                        <div style="font-weight: 700; margin-bottom: 10px;">🧮 Kompetensi Matematika <span class="citation-badge">Kepmendikdasmen No. 95/2025, Lampiran II</span>:</div>
+                        <div class="competency-tags">
+                            <span class="tag">Bilangan</span>
+                            <span class="tag">Geometri & Pengukuran</span>
+                            <span class="tag">Data</span>
+                            <span class="tag">Pemecahan Masalah</span>
+                            <span class="tag">Penalaran</span>
+                            <span class="tag">Representasi Matematis</span>
+                        </div>
+                        <ul class="bullet-list" style="margin-top: 12px;">
+                            <li>Pengetahuan & pemahaman matematika</li>
+                            <li>Aplikasi konsep dalam konteks nyata</li>
+                            <li>Penalaran & analisis hubungan konsep</li>
+                        </ul>
+                        <div class="table-note">
+                            <strong>Level Kognitif:</strong> Pengetahuan/Pemahaman, Aplikasi, Penalaran <span class="citation-badge">Pusmendik, 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HARI 2: BAHASA INDONESIA & LITERASI -->
+                <div class="test-card">
+                    <div class="card-header">
+                        <div class="card-icon">📚</div>
+                        <div class="card-title">
+                            <h3>HARI KEDUA</h3>
+                            <p>Bahasa Indonesia & Literasi</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <span class="stat-item">⏱️ 10 menit latihan</span>
+                        <span class="stat-item highlight">📝 75 menit soal</span>
+                        <span class="stat-item">📋 20 menit Sulingjar</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <tr><th>Komponen</th><th>Durasi</th><th>Keterangan</th></tr>
+                            <tr><td>Latihan Soal</td><td>10 menit</td><td>pemanasan</td></tr>
+                            <tr><td><strong>Pengerjaan Soal B. Indonesia & Literasi</strong></td><td><strong>75 menit</strong></td><td>30 soal pusat + daerah <span class="citation-badge">BSKAP No. 12/2026</span></td></tr>
+                            <tr><td>Survei Lingkungan Belajar (Sulingjar)</td><td>20 menit</td><td>asesmen non-akademik <span class="citation-badge">Pusmendik, 2026</span></td></tr>
+                        </table>
+                    </div>
+
+                    <div class="competency-box">
+                        <div style="font-weight: 700; margin-bottom: 10px;">📖 Kompetensi Bahasa Indonesia <span class="citation-badge">Kepmendikdasmen No. 95/2025, Lampiran III</span>:</div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
+                            <span class="tag">Teks Informasi</span>
+                            <span class="tag">Teks Fiksi</span>
+                        </div>
+                        <ul class="bullet-list">
+                            <li><strong>Pemahaman tekstual:</strong> informasi eksplisit, mengelompokkan</li>
+                            <li><strong>Pemahaman inferensial:</strong> menyimpulkan informasi tersirat</li>
+                            <li><strong>Evaluasi & apresiasi:</strong> menilai ide, tanggapan emosional, kritik bahasa penulis</li>
+                            <li>Mengidentifikasi, menyusun ulang, membuat ikhtisar teks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BENTUK SOAL DENGAN CITATION -->
+            <div class="info-box">
+                <h4 style="font-size: 20px; margin-bottom: 16px; color: #003b6f;">📋 BENTUK SOAL TKA SMP 2026 <span class="citation-badge">Pusmendik, 2026, hlm. 15-18</span></h4>
+                <div class="soal-types">
+                    <div class="soal-type-item">
+                        <div class="soal-type-title">🔹 Pilihan Ganda Sederhana</div>
+                        <div class="soal-type-desc">Satu jawaban benar dari beberapa pilihan</div>
+                    </div>
+                    <div class="soal-type-item">
+                        <div class="soal-type-title">🔸 Pilihan Ganda Kompleks (MCMA)</div>
+                        <div class="soal-type-desc">Lebih dari satu jawaban benar (multiple choice multiple answers)</div>
+                    </div>
+                    <div class="soal-type-item">
+                        <div class="soal-type-title">🔹 PGK Kategori</div>
+                        <div class="soal-type-desc">Respons "benar/salah" atau "sesuai/tidak sesuai" untuk beberapa pernyataan</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; background: white; border-radius: 16px; padding: 16px;">
+                    <p><strong>📌 Jenis Soal Berdasarkan Penyajian <span class="citation-badge">Kemendikdasmen, 2026</span>:</strong></p>
+                    <ul class="bullet-list">
+                        <li><strong>Soal Tunggal:</strong> berdiri sendiri, tidak terkait soal lain</li>
+                        <li><strong>Soal Grup:</strong> beberapa soal mengacu pada stimulus yang sama (teks, grafik, ilustrasi) </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- INFORMASI JUMLAH SOAL & WAKTU DENGAN CITATION -->
+            <div class="grid-2" style="margin-top: 20px;">
+                <div class="test-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #0b2b4a;">📊</div>
+                        <div class="card-title">
+                            <h3>Distribusi Soal <span class="citation-badge">BSKAP No. 12/2026</span></h3>
+                        </div>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>Matematika:</strong> 30 soal (gabungan soal pusat dan daerah) </li>
+                        <li><strong>Bahasa Indonesia & Literasi:</strong> 30 soal (gabungan pusat dan daerah) </li>
+                        <li><strong>Total Soal Keseluruhan:</strong> 60 soal</li>
+                        <li>Tidak ada kisi-kisi khusus, mengacu pada kerangka asesmen Kepmendikdasmen No. 95/2025 <span class="citation-badge">Pasal 12</span></li>
+                    </ul>
+                </div>
+                
+                <div class="test-card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #0b2b4a;">⏳</div>
+                        <div class="card-title">
+                            <h3>Alokasi Waktu per Hari <span class="citation-badge">Pusmendik, 2026</span></h3>
+                        </div>
+                    </div>
+                    <ul class="bullet-list">
+                        <li><strong>Latihan:</strong> 10 menit</li>
+                        <li><strong>Pengerjaan Soal:</strong> 75 menit</li>
+                        <li><strong>Survei (Karakter/Sulingjar):</strong> 20 menit</li>
+                        <li><strong>Total per Hari:</strong> 105 menit (1 jam 45 menit)</li>
+                        <li><strong>Total 2 Hari:</strong> 210 menit (3 jam 30 menit)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- KETENTUAN KHUSUS DENGAN CITATION -->
+            <div class="info-box" style="background: #f1f5f9;">
+                <h4 style="font-size: 20px; margin-bottom: 20px;">📌 KETENTUAN KHUSUS TKA SMP 2026 <span class="citation-badge">Permendikdasmen No. 9 Tahun 2026</span></h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">STATUS KELULUSAN</div>
+                        <div class="info-value">BUKAN penentu kelulusan</div>
+                        <div class="info-desc">Pemetaan capaian akademik, bukan syarat lulus <span class="citation-badge">Pasal 5</span></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">KEIKUTSERTAAN</div>
+                        <div class="info-value">Tidak Wajib</div>
+                        <div class="info-desc">Opsional, tapi direkomendasikan untuk jalur prestasi <span class="citation-badge">Pasal 6 Ayat 2</span></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">MANFAAT UTAMA</div>
+                        <div class="info-value">Jalur Prestasi SPMB</div>
+                        <div class="info-desc">Masuk SMP/SMA negeri jalur prestasi akademik <span class="citation-badge">Kepmendikdasmen No. 95/2025</span></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">PESERTA</div>
+                        <div class="info-value">Kelas IX (sembilan)</div>
+                        <div class="info-desc">Siswa akhir SMP/MTs sederajat <span class="citation-badge">Pasal 3</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PESERTA KHUSUS DENGAN CITATION -->
+            <div style="margin: 28px 0; padding: 20px; background: #f1f5f9; border-radius: 24px;">
+                <h4 style="margin-bottom: 16px;">👥 Kriteria Peserta <span class="citation-badge">Permendikdasmen No. 9 Tahun 2026, Pasal 3-4</span>:</h4>
+                <ul class="bullet-list">
+                    <li>Murid kelas 9 SMP/MTs atau bentuk sederajat (jalur formal)</li>
+                    <li>Murid kelas 9 program Paket B/PKPPS Wustha (jalur nonformal)</li>
+                    <li>Berada pada semester terakhir dengan laporan hasil belajar setiap tingkatan</li>
+                    <li>Murid berkebutuhan khusus dapat mengikuti (tanpa hambatan intelektual) </li>
+                </ul>
+            </div>
+
+            <!-- PERSYARATAN TEKNIS -->
+            <div style="background: #fef9e7; border-radius: 24px; padding: 20px; border: 1px solid #fde68a; margin: 28px 0;">
+                <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                    <span style="background: #f59e0b; color: white; padding: 6px 20px; border-radius: 40px; font-weight: 700;">⚠️ ANTISIPASI KENDALA</span>
+                    <span>Ujian susulan 11-19 Mei 2026 untuk kendala teknis/listrik/cuaca ekstrem <span class="citation-badge">BSKAP, 2026</span></span>
+                </div>
+            </div>
+
+            <!-- TOTAL BOX -->
+            <div class="total-box">
+                <div class="total-number">210 MENIT</div>
+                <div class="total-label">Total Durasi Ujian 2 Hari</div>
+                <div class="total-sub">
+                    <span>📐 Hari 1: 105 menit</span>
+                    <span>📖 Hari 2: 105 menit</span>
+                </div>
+                <div style="margin-top: 20px; background: rgba(255,255,255,0.15); padding: 14px; border-radius: 60px; font-size: 18px; font-weight: 600;">
+                    60 SOAL TOTAL
+                </div>
+            </div>
+
+            <!-- REFERENSI DAN CITATION LENGKAP -->
+            <div class="footer-note">
+                <p style="font-weight: 700; font-size: 16px; margin-bottom: 16px;">📚 DAFTAR REFERENSI DAN CITATION</p>
+                
+                <div class="reference-item">
+                    <div class="ref-title">Peraturan Menteri Pendidikan Dasar dan Menengah (Permendikdasmen) Republik Indonesia Nomor 9 Tahun 2026</div>
+                    <div class="ref-source">tentang Sistem Asesmen Nasional dan Tes Kemampuan Akademik. Jakarta: Kementerian Pendidikan Dasar dan Menengah.</div>
+                    <div
