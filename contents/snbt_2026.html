@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Struktur Tes SNBT 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: #f5f7fa;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Kartu Utama */
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            padding: clamp(16px, 5vw, 32px);
+            margin-bottom: 20px;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: clamp(24px, 6vw, 40px);
+        }
+        
+        .header h1 {
+            font-size: clamp(24px, 7vw, 40px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        
+        .header h2 {
+            font-size: clamp(16px, 4vw, 24px);
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+        
+        /* Grid Sistem */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: clamp(12px, 3vw, 24px);
+            margin-bottom: clamp(24px, 5vw, 40px);
+        }
+        
+        @media (max-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Komponen Card */
+        .test-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: clamp(16px, 4vw, 24px);
+            border: 1px solid #e9eef2;
+            transition: all 0.2s ease;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e9eef2;
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: #4f46e5;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .card-title {
+            flex: 1;
+        }
+        
+        .card-title h3 {
+            font-size: clamp(18px, 5vw, 22px);
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        .card-title p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        /* Info Stats */
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        
+        /* Tabel Responsif */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 16px 0;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 16px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: clamp(13px, 4vw, 15px);
+            min-width: 300px;
+        }
+        
+        th {
+            background: #e9eef2;
+            color: #1e293b;
+            font-weight: 600;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e9eef2;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Tree/Diagram Structure */
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .tree-root {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: clamp(12px, 3vw, 20px) clamp(20px, 5vw, 40px);
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: clamp(16px, 4vw, 22px);
+            margin-bottom: 30px;
+            text-align: center;
+            width: fit-content;
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3);
+        }
+        
+        .tree-branches {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(16px, 4vw, 30px);
+            width: 100%;
+            position: relative;
+        }
+        
+        .tree-branch {
+            flex: 1 1 250px;
+            min-width: 200px;
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e9eef2;
+        }
+        
+        .branch-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #4f46e5;
+        }
+        
+        .branch-items {
+            list-style: none;
+        }
+        
+        .branch-items li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e9eef2;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        
+        .branch-items li:last-child {
+            border-bottom: none;
+        }
+        
+        .item-soal {
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        
+        /* Portofolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px;
+            margin: 16px 0;
+        }
+        
+        .portfolio-item {
+            background: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            border: 1px solid #e9eef2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .portfolio-item:before {
+            content: "•";
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: #eef2ff;
+            border-radius: 20px;
+            padding: clamp(16px, 4vw, 24px);
+            margin-top: 24px;
+        }
+        
+        .info-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 16px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .info-item {
+            background: white;
+            padding: 12px 16px;
+            border-radius: 16px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            font-size: clamp(16px, 4vw, 20px);
+            font-weight: 700;
+            color: #1e293b;
+        }
+        
+        /* Total Box */
+        .total-box {
+            background: linear-gradient(135deg, #f8fafc, #eef2ff);
+            border-radius: 30px;
+            padding: 24px;
+            text-align: center;
+            border: 2px dashed #4f46e5;
+        }
+        
+        .total-number {
+            font-size: clamp(32px, 8vw, 56px);
+            font-weight: 800;
+            color: #1e3c72;
+            line-height: 1.2;
+        }
+        
+        .total-label {
+            color: #64748b;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        /* Utility */
+        .text-center { text-align: center; }
+        .mt-4 { margin-top: 24px; }
+        .mb-4 { margin-bottom: 24px; }
+        .font-bold { font-weight: 700; }
+        .text-blue { color: #4f46e5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="card">
+            <div class="header">
+                <h1>📋 STRUKTUR TES SNBT 2026</h1>
+                <h2>UTBK (Ujian Tulis Berbasis Komputer)</h2>
+                <span class="badge">🎯 Update Terbaru - SNPMB 2026</span>
+            </div>
+
+            <!-- Tree Diagram -->
+            <div class="tree">
+                <div class="tree-root">
+                    TES SNBT 2026
+                </div>
+                <div class="tree-branches">
+                    <div class="tree-branch">
+                        <div class="branch-title">📚 TES POTENSI SKOLASTIK</div>
+                        <ul class="branch-items">
+                            <li><span>Penalaran Umum</span> <span class="item-soal">30 soal</span></li>
+                            <li style="margin-left: 20px; font-size: 13px;">├─ Penalaran Induktif</li>
+                            <li style="margin-left: 20px; font-size: 13px;">├─ Penalaran Deduktif</li>
+                            <li style="margin-left: 20px; font-size: 13px;">└─ Penalaran Kuantitatif</li>
+                            <li><span>Pengetahuan & Pemahaman Umum</span> <span class="item-soal">20</span></li>
+                            <li><span>Pemahaman Bacaan & Menulis</span> <span class="item-soal">20</span></li>
+                            <li><span>Pengetahuan Kuantitatif</span> <span class="item-soal">20</span></li>
+                            <li style="margin-top: 12px; color: #4f46e5;"><span>Total Soal</span> <span class="item-soal">90</span></li>
+                        </ul>
+                    </div>
+                    <div class="tree-branch">
+                        <div class="branch-title">📖 TES LITERASI</div>
+                        <ul class="branch-items">
+                            <li><span>Literasi Bahasa Indonesia</span> <span class="item-soal">30</span></li>
+                            <li><span>Literasi Bahasa Inggris</span> <span class="item-soal">20</span></li>
+                            <li><span>Penalaran Matematika</span> <span class="item-soal">20</span></li>
+                            <li style="margin-top: 12px; color: #4f46e5;"><span>Total Soal</span> <span class="item-soal">70</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cards Grid -->
+            <div class="grid-2">
+                <!-- TPS Card -->
+                <div class="test-card">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div class="card-title">
+                            <h3>Tes Potensi Skolastik</h3>
+                            <p>TPS • 105 Menit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <span class="stat-item">⏱️ 105 menit</span>
+                        <span class="stat-item">📝 90 soal</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <tr><th>Sub Tes</th><th>Soal</th></tr>
+                            <tr><td>Penalaran Umum</td><td>30</td></tr>
+                            <tr><td style="padding-left: 24px;">• Penalaran Induktif</td><td>(10)</td></tr>
+                            <tr><td style="padding-left: 24px;">• Penalaran Deduktif</td><td>(10)</td></tr>
+                            <tr><td style="padding-left: 24px;">• Penalaran Kuantitatif</td><td>(10)</td></tr>
+                            <tr><td>Pengetahuan & Pemahaman Umum</td><td>20</td></tr>
+                            <tr><td>Pemahaman Bacaan & Menulis</td><td>20</td></tr>
+                            <tr><td>Pengetahuan Kuantitatif</td><td>20</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Literasi Card -->
+                <div class="test-card">
+                    <div class="card-header">
+                        <div class="card-icon">📝</div>
+                        <div class="card-title">
+                            <h3>Tes Literasi</h3>
+                            <p>Literasi • 90 Menit</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <span class="stat-item">⏱️ 90 menit</span>
+                        <span class="stat-item">📝 70 soal</span>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table>
+                            <tr><th>Sub Tes</th><th>Soal</th></tr>
+                            <tr><td>Literasi Bahasa Indonesia</td><td>30</td></tr>
+                            <tr><td>Literasi Bahasa Inggris</td><td>20</td></tr>
+                            <tr><td>Penalaran Matematika</td><td>20</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portofolio Section -->
+            <div class="test-card" style="margin-bottom: 24px;">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #9c27b0;">🎨</div>
+                    <div class="card-title">
+                        <h3>Portofolio</h3>
+                        <p>Wajib untuk Prodi Seni & Olahraga</p>
+                    </div>
+                </div>
+                
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">Olahraga</div>
+                    <div class="portfolio-item">Seni Rupa, Desain, Kriya</div>
+                    <div class="portfolio-item">Seni Tari</div>
+                    <div class="portfolio-item">Seni Musik</div>
+                    <div class="portfolio-item">Seni Karawitan</div>
+                    <div class="portfolio-item">Etnomusikologi</div>
+                    <div class="portfolio-item">Teater</div>
+                    <div class="portfolio-item">Fotografi</div>
+                    <div class="portfolio-item">Film dan Televisi</div>
+                    <div class="portfolio-item">Seni Pedalangan</div>
+                    <div class="portfolio-item">Sendratasik</div>
+                </div>
+            </div>
+
+            <!-- Info Box -->
+            <div class="info-box">
+                <div class="info-title">📌 Ketentuan Umum Pelaksanaan</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Total Soal</div>
+                        <div class="info-value">155-160 soal</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Durasi Total</div>
+                        <div class="info-value">195 menit</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Pelaksanaan</div>
+                        <div class="info-value">21-30 April 2026</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Kesempatan</div>
+                        <div class="info-value">1 Kali UTBK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Box -->
+            <div class="total-box mt-4">
+                <div class="total-number">195 MENIT</div>
+                <div class="total-label">Total Durasi Ujian</div>
+                <div style="display: flex; justify-content: center; gap: 30px; margin-top: 16px; flex-wrap: wrap;">
+                    <span><span class="font-bold">TPS:</span> 105 menit</span>
+                    <span><span class="font-bold">Literasi:</span> 90 menit</span>
+                </div>
+            </div>
+
+            <!-- Footer Note -->
+            <div style="margin-top: 24px; padding: 16px; background: #f1f5f9; border-radius: 16px; font-size: 14px; color: #475569; text-align: center;">
+                <p>⚠️ Hasil UTBK 2026 hanya berlaku untuk SNBT & penerimaan PTN 2026 • Tidak ada penalti jawaban salah</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
