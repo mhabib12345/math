@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Roadmap Belajar Python untuk Anak SMA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-size: clamp(28px, 6vw, 48px);
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 span {
+            background: #ffd700;
+            color: #2d3748;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.5em;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        
+        .header p {
+            font-size: clamp(16px, 4vw, 20px);
+            opacity: 0.95;
+        }
+        
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-top: 15px;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        /* Grid Layout */
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        /* Card Styling */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.2);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .card.level-1::before { background: linear-gradient(90deg, #48bb78, #38a169); }
+        .card.level-2::before { background: linear-gradient(90deg, #4299e1, #3182ce); }
+        .card.level-3::before { background: linear-gradient(90deg, #ed8936, #dd6b20); }
+        .card.level-4::before { background: linear-gradient(90deg, #9f7aea, #805ad5); }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .level-badge {
+            width: 50px;
+            height: 50px;
+            background: #f7fafc;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 24px;
+            color: #4a5568;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .level-1 .level-badge { background: #c6f6d5; color: #22543d; }
+        .level-2 .level-badge { background: #bee3f8; color: #2c5282; }
+        .level-3 .level-badge { background: #feebc8; color: #7b341e; }
+        .level-4 .level-badge { background: #e9d8fd; color: #553c9a; }
+        
+        .card-title {
+            flex: 1;
+        }
+        
+        .card-title h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a202c;
+        }
+        
+        .card-title .time {
+            font-size: 14px;
+            color: #718096;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Progress bar */
+        .progress {
+            height: 8px;
+            background: #edf2f7;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        .level-1 .progress-bar { background: linear-gradient(90deg, #48bb78, #38a169); }
+        .level-2 .progress-bar { background: linear-gradient(90deg, #4299e1, #3182ce); }
+        .level-3 .progress-bar { background: linear-gradient(90deg, #ed8936, #dd6b20); }
+        .level-4 .progress-bar { background: linear-gradient(90deg, #9f7aea, #805ad5); }
+        
+        /* List items */
+        .topic-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+        
+        .topic-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            font-size: 15px;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        
+        .topic-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .topic-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .topic-list li.coming::before {
+            content: "⏳";
+            color: #ed8936;
+        }
+        
+        /* Badge skills */
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .skill-tag {
+            background: #edf2f7;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .skill-tag.highlight {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Project Cards */
+        .projects-section {
+            margin: 40px 0;
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: scale(1.03);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .project-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .project-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #1a202c;
+        }
+        
+        .project-desc {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 12px;
+        }
+        
+        .project-level {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #edf2f7;
+            color: #4a5568;
+        }
+        
+        /* Tips Box */
+        .tips-box {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .tip-item {
+            text-align: center;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 20px;
+        }
+        
+        .tip-emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        .tip-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a202c;
+        }
+        
+        .tip-desc {
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        /* Resources */
+        .resources {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 40px 0;
+            color: white;
+        }
+        
+        .resources h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        
+        .resource-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .resource-link {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(5px);
+        }
+        
+        /* Motivasi */
+        .motivation {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            font-size: 18px;
+            font-style: italic;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            margin-top: 40px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 640px) {
+            body { padding: 10px; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                🐍 Roadmap Belajar Python 
+                <span>SMA</span>
+            </h1>
+            <p>Dari Nol Sampai Bikin Project Keren! 🚀</p>
+            <div class="badge">
+                ⏱️ Estimasi waktu: 3-6 bulan • 5-7 jam/minggu
+            </div>
+        </div>
+
+        <!-- Roadmap Grid -->
+        <div class="roadmap-grid">
+            <!-- Level 1: Dasar Banget -->
+            <div class="card level-1">
+                <div class="card-header">
+                    <div class="level-badge">1</div>
+                    <div class="card-title">
+                        <h3>🐣 Level 1: Python Pemula</h3>
+                        <div class="time">⏰ 3-4 minggu • 15-20 jam</div>
+                    </div>
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar" style="width: 25%"></div>
+                </div>
+                
+                <ul class="topic-list">
+                    <li>Apa itu Python? Install & setup</li>
+                    <li>Print & Comments (cetak teks)</li>
+                    <li>Variabel & Tipe Data (string, integer, float)</li>
+                    <li>Input dari user</li>
+                    <li>Operator matematika dasar</li>
+                    <li>String manipulation (menggabung, memotong)</li>
+                    <li>List & Tuple (kumpulan data)</li>
+                    <li>Dictionary (data berpasangan)</li>
+                </ul>
+                
+                <div class="skill-tags">
+                    <span class="skill-tag">#print()</span>
+                    <span class="skill-tag">#variabel</span>
+                    <span class="skill-tag">#tipe_data</span>
+                    <span class="skill-tag">#list</span>
+                </div>
+                
+                <p style="margin-top: 15px; font-size: 14px; color: #38a169;">
+                    ✅ Bisa bikin: Program salam, kalkulator sederhana
+                </p>
+            </div>
+
+            <!-- Level 2: Mulai Logic -->
+            <div class="card level-2">
+                <div class="card-header">
+                    <div class="level-badge">2</div>
+                    <div class="card-title">
+                        <h3>🧠 Level 2: Logic & Control</h3>
+                        <div class="time">⏰ 4-5 minggu • 20-25 jam</div>
+                    </div>
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar" style="width: 50%"></div>
+                </div>
+                
+                <ul class="topic-list">
+                    <li>If, Elif, Else (percabangan)</li>
+                    <li>Perulangan For & While</li>
+                    <li>Break & Continue</li>
+                    <li>Fungsi (def) - bikin kode sendiri</li>
+                    <li>Parameter & Return value</li>
+                    <li>List comprehension (cara cepat bikin list)</li>
+                    <li>Error handling (try-except)</li>
+                </ul>
+                
+                <div class="skill-tags">
+                    <span class="skill-tag">#if_else</span>
+                    <span class="skill-tag">#looping</span>
+                    <span class="skill-tag">#fungsi</span>
+                    <span class="skill-tag">#try_except</span>
+                </div>
+                
+                <p style="margin-top: 15px; font-size: 14px; color: #3182ce;">
+                    ✅ Bisa bikin: Tebak angka, game sederhana, kalkulator canggih
+                </p>
+            </div>
+
+            <!-- Level 3: Mulai Keren -->
+            <div class="card level-3">
+                <div class="card-header">
+                    <div class="level-badge">3</div>
+                    <div class="card-title">
+                        <h3>⚡ Level 3: Intermediate</h3>
+                        <div class="time">⏰ 5-6 minggu • 25-30 jam</div>
+                    </div>
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar" style="width: 75%"></div>
+                </div>
+                
+                <ul class="topic-list">
+                    <li>Modul & Package (import)</li>
+                    <li>Baca & tulis file (txt, csv)</li>
+                    <li>OOP sederhana (class & object)</li>
+                    <li>Lambda & Map/Filter</li>
+                    <li>Working with dates</li>
+                    <li>Regular Expression (regex) dasar</li>
+                    <li>Virtual environment (venv)</li>
+                </ul>
+                
+                <div class="skill-tags">
+                    <span class="skill-tag">#import</span>
+                    <span class="skill-tag">#file_io</span>
+                    <span class="skill-tag">#class</span>
+                    <span class="skill-tag">#regex</span>
+                </div>
+                
+                <p style="margin-top: 15px; font-size: 14px; color: #dd6b20;">
+                    ✅ Bisa bikin: To-do list app, data organizer, password generator
+                </p>
+            </div>
+
+            <!-- Level 4: Bikin Project -->
+            <div class="card level-4">
+                <div class="card-header">
+                    <div class="level-badge">4</div>
+                    <div class="card-title">
+                        <h3>🚀 Level 4: Project Based</h3>
+                        <div class="time">⏰ 6-8 minggu • 30-40 jam</div>
+                    </div>
+                </div>
+                
+                <div class="progress">
+                    <div class="progress-bar" style="width: 100%"></div>
+                </div>
+                
+                <ul class="topic-list">
+                    <li>Web scraping dengan BeautifulSoup</li>
+                    <li>Buat API sederhana (Flask)</li>
+                    <li>Database SQLite</li>
+                    <li>Buat bot Telegram/WhatsApp</li>
+                    <li>Data visualization (matplotlib)</li>
+                    <li>Game sederhana (pygame)</li>
+                    <li>Deploy ke internet (pythonanywhere)</li>
+                </ul>
+                
+                <div class="skill-tags">
+                    <span class="skill-tag">#flask</span>
+                    <span class="skill-tag">#scraping</span>
+                    <span class="skill-tag">#database</span>
+                    <span class="skill-tag">#deploy</span>
+                </div>
+                
+                <p style="margin-top: 15px; font-size: 14px; color: #805ad5;">
+                    ✅ Bisa bikin: Website sendiri, bot, aplikasi database
+                </p>
+            </div>
+        </div>
+
+        <!-- Project Ideas -->
+        <div class="projects-section">
+            <div class="section-title">
+                <span>🎯</span> IDE PROJECT SERU (SESUAI LEVEL)
+            </div>
+            
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-icon">🧮</div>
+                    <div class="project-title">Kalkulator Nilai</div>
+                    <div class="project-desc">Hitung rata-rata nilai pelajaran, kasih rekomendasi belajar</div>
+                    <span class="project-level">Level 1-2</span>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-icon">🎮</div>
+                    <div class="project-title">Game Tebak Kata</div>
+                    <div class="project-desc">Hangman / tebak kata bahasa Inggris buat belajar</div>
+                    <span class="project-level">Level 2-3</span>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-icon">📊</div>
+                    <div class="project-title">Catatan Keuangan</div>
+                    <div class="project-desc">Track uang jajan, bikin grafik pengeluaran</div>
+                    <span class="project-level">Level 3</span>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-icon">🤖</div>
+                    <div class="project-title">Bot Belajar</div>
+                    <div class="project-desc">Bot Telegram yang kasih soal quiz MTK/Inggris</div>
+                    <span class="project-level">Level 4</span>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-icon">📝</div>
+                    <div class="project-title">Catatan Tugas</div>
+                    <div class="project-desc">Aplikasi todo-list dengan deadline dan notifikasi</div>
+                    <span class="project-level">Level 3-4</span>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-icon">🌐</div>
+                    <div class="project-title">Portofolio Web</div>
+                    <div class="project-desc">Website pribadi pake Flask buat nunjukin project</div>
+                    <span class="project-level">Level 4</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tips Sukses -->
+        <div class="tips-box">
+            <h3 style="font-size: 22px; margin-bottom: 10px;">💡 TIPS SUKSES BUAT ANAK SMA</h3>
+            <p style="color: #718096; margin-bottom: 20px;">Cara biar nggak nyerah di tengah jalan</p>
+            
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <div class="tip-emoji">📅</div>
+                    <div class="tip-title">Konsisten 1 jam/hari</div>
+                    <div class="tip-desc">Lebih baik rutin daripada langsung 5 jam terus kapok</div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-emoji">👥</div>
+                    <div class="tip-title">Gabung komunitas</div>
+                    <div class="tip-desc">Temenan di Discord/Telegram biar saling bantu</div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-emoji">🎯</div>
+                    <div class="tip-title">Bikin target kecil</div>
+                    <div class="tip-desc">"Minggu ini harus bisa bikin kalkulator"</div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-emoji">📝</div>
+                    <div class="tip-title">Catat error</div>
+                    <div class="tip-desc">Bikin catatan error & solusinya biar belajar lebih cepat</div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-emoji">🏆</div>
+                    <div class="tip-title">Ikut challenge</div>
+                    <div class="tip-desc">Coba coding challenge di hackerrank atau codewars</div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-emoji">🎮</div>
+                    <div class="tip-title">Bikin project seru</div>
+                    <div class="tip-desc">Yang sesuai hobi: game, bot, atau web</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="resources">
+            <h3>📚 REKOMENDASI SUMBER BELAJAR</h3>
+            
+            <div class="resource-links">
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>🇮🇩</span> Python Indonesia (YouTube)
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>📖</span> W3Schools Python
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>🎓</span> Programiz
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>📱</span> Sololearn (App)
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>🤖</span> ChatGPT (buat nanya-nanya)
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>📺</span> Kelas Terbuka
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>💻</span> Replit (coding online)
+                </a>
+                <a href="#" class="resource-link" onclick="return false;">
+                    <span>📊</span> GeeksforGeeks
+                </a>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 14px; opacity: 0.8;">
+                ⭐ Mulai dari yang gratis dulu! Nggak perlu beli kursus mahal-mahal.
+            </p>
+        </div>
+
+        <!-- Motivasi -->
+        <div class="motivation">
+            <p>"Semua programmer hebat dulunya juga bingung. Yang membedakan adalah mereka nggak berhenti nyoba."</p>
+            <p style="margin-top: 10px; font-size: 16px;">✨ Mulai aja dulu, error itu wajar! ✨</p>
+            <p style="margin-top: 20px; font-size: 14px; opacity: 0.7;">
+                🐍 Python itu bahasa paling cocok buat pemula. Dalam 3 bulan kamu bisa bikin project keren!
+            </p>
+        </div>
+        
+        <!-- Progress Tracker Sederhana -->
+        <div style="background: white; border-radius: 20px; padding: 20px; margin-top: 20px; text-align: center;">
+            <h4 style="margin-bottom: 15px;">📊 SEBERAPA JAUH KAMU?</h4>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                <span style="background: #c6f6d5; padding: 8px 16px; border-radius: 30px; font-size: 14px;">🐣 Level 1: Dasar</span>
+                <span style="background: #bee3f8; padding: 8px 16px; border-radius: 30px; font-size: 14px;">🧠 Level 2: Logic</span>
+                <span style="background: #feebc8; padding: 8px 16px; border-radius: 30px; font-size: 14px;">⚡ Level 3: Intermediate</span>
+                <span style="background: #e9d8fd; padding: 8px 16px; border-radius: 30px; font-size: 14px;">🚀 Level 4: Master</span>
+            </div>
+            <p style="margin-top: 15px; color: #718096; font-size: 14px;">
+                Klik level yang udah kamu kuasai untuk tandai progress!
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Simple interactive progress (optional)
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Bisa ditambahin fungsi checklist nanti
+                console.log('Card clicked:', this.querySelector('h3').textContent);
+            });
+        });
+    </script>
+</body>
+</html>
